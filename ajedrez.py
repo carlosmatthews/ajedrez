@@ -111,17 +111,18 @@ def mover(tablero, posicion1, posicion2):
 
 def print_tablero(tablero):  
     print()
+    print("  ", end="")
     for n in range(8):
-        print("  ",n,"",end="",)
+        print(f"  {n} ",end="")  # MARTO: preguntame por esta notacion f"" para strings
     print()        
     for fila in range(8):
-        print(fila," ——— " * 8)       
-  
+        print(" ", " ——-" * 8)
+        print(fila, end=" ")      
         for col in range(8):
             pieza = tablero.get((fila,col))
             simbolo = representacion_piezas(pieza)
-            print(" |", simbolo, end=' ')
-        print(" |")    
-    print("  ———" * 8)
+            print(f"| {simbolo} ", end="")
+        print("|")    
+    print(" ", " ———" * 8)
     print()
 
