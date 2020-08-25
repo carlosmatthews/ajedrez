@@ -110,6 +110,7 @@ def mover(tablero, posicion1, posicion2):
 
 
 def print_tablero(tablero):  
+    print()
     for n in range(8):
         print("  ",n,"",end="",)
     print()        
@@ -122,7 +123,7 @@ def print_tablero(tablero):
             print(" |", simbolo, end=' ')
         print(" |")    
     print("  ———" * 8)
-
+    print()
 
     
     
