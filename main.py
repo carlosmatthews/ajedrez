@@ -1,4 +1,4 @@
-# este es un comentario de prueba
+# este es un comentario de prueba de github
 from ajedrez import *
 
 tablero_inicio = crear_tablero()
