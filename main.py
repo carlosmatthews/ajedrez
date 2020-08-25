@@ -1,4 +1,4 @@
-# este NO es un comentario de prueba
+#!/usr/bin/env python3
 from ajedrez import *
 
 tablero_inicio = crear_tablero()
