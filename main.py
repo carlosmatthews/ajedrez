@@ -1,3 +1,5 @@
+# este es el main 
+
 from ajedrez import *
 
 tablero_inicio = crear_tablero()
