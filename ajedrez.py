@@ -125,12 +125,3 @@ def print_tablero(tablero):
     print("  ———" * 8)
     print()
 
-    
-    
-
-
-    
-
-
-    
-
