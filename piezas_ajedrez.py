@@ -49,7 +49,10 @@ def obtner_pieza(tablero, posicion):
     color_pieza = pieza[1]
     return tipo_de_pieza, color_pieza 
     
-    
+def casillero_esta_libre(posicion,tablero):
+    if posicion not in tablero:
+        return True
+
     
 def mover_peon(posicion):
     mov_1 = (posicion[0]+1,posicion[1])   
@@ -89,28 +92,41 @@ def mover_torre(posicion):
 
     return movimientos_posibles
 
-def mover_alfil(posicion):
+
+
+def mover_alfil(posicion,tablero):
     fila = posicion[0]
     columna = posicion[1]
     movimientos_posibles = []
-    rango = fila +1 
-    for n in range(1,rango):
-        movimientos_posibles.append((fila-n,columna-n))
-        movimientos_posibles.append((fila-n,columna+n))
-    
-    rango_inverso = 7-fila
-    for n in range (1,rango_inverso+1):
-        movimientos_posibles.append((fila+n,columna-n)) 
-        movimientos_posibles.append((fila+n,columna+n))
+    # diagonal 1
+    rango_1 = min(posicion)+1
+    for n in range(1,rango_1):
+        if casillero_esta_libre((fila-n,columna-n),tablero):
+            movimientos_posibles.append((fila-n,columna-n))
+    #diagonal 2
+    rango_2 = min(fila, 7-columna)+1
+    for n in range(1,rango_2+1):
+        if casillero_esta_libre((fila-n,columna+n),tablero):    
+            movimientos_posibles.append((fila-n,columna+n))
+    #diagonal 3
+    rango_3 = min(6-fila,columna) +1
+    for n in range (rango_3):
+        if casillero_esta_libre((fila+n,columna-n),tablero):
+            movimientos_posibles.append((fila+n,columna-n)) 
+    #diagonal 4 
+    rango_4 = min(6-fila,7-columna) +1  
+    for n in range (1,rango_4):   
+        if casillero_esta_libre((fila+n,columna+n),tablero):
+            movimientos_posibles.append((fila+n,columna+n))
     
     #filtrado de posicion no validas
-    for e in movimientos_posibles:
+    """for e in movimientos_posibles:
         if e[0] > 7 or e[1] > 7 :
             posicion_nula = movimientos_posibles.index(e)
             del movimientos_posibles[posicion_nula]
         if e[0] < 0 or e[1] < 0:
             posicion_nula = movimientos_posibles.index(e)
-            del movimientos_posibles[posicion_nula]
+            del movimientos_posibles[posicion_nula]"""
     
     print(movimientos_posibles)
     return movimientos_posibles
@@ -134,20 +150,16 @@ dicc_movimientos ={
 
 #esta funcion es solo para probar las otras...grafica dado una posicion de pieza de inicio.
 #y la funcion q le damos segun la íeza a probar
-def probar_mov(posicion, funcion_a_probar):
-
-    movimientos = funcion_a_probar(posicion)
-    
-    tablero = {(posicion):(REY,NEGRO)}
-    for tupla in movimientos:
+def probar_mov(lista_posiciones):
+    tablero = {}
+  
+    for tupla in lista_posiciones:
         tablero[tupla]=(PEON,BLANCO)
 
     print_tablero(tablero)
+# instruciones para probar las funciones de movimietnos de piezas
+tablero_inicio= crear_tablero()
+alfil = mover_alfil((3,4),tablero_inicio)
 
-
-posicion = (2,3)
-
-b = a(2,3)
-print(b)
-
-
+probar_mov(alfil)
+print_tablero(tablero_inicio)
