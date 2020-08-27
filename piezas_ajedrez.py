@@ -103,22 +103,29 @@ def mover_alfil(posicion,tablero):
     for n in range(1,rango_1):
         if casillero_esta_libre((fila-n,columna-n),tablero):
             movimientos_posibles.append((fila-n,columna-n))
+        else:
+            break
     #diagonal 2
     rango_2 = min(fila, 7-columna)+1
     for n in range(1,rango_2+1):
         if casillero_esta_libre((fila-n,columna+n),tablero):    
             movimientos_posibles.append((fila-n,columna+n))
+        else:
+            break
     #diagonal 3
     rango_3 = min(6-fila,columna) +1
     for n in range (rango_3):
         if casillero_esta_libre((fila+n,columna-n),tablero):
             movimientos_posibles.append((fila+n,columna-n)) 
+        else:
+            break
     #diagonal 4 
     rango_4 = min(6-fila,7-columna) +1  
     for n in range (1,rango_4):   
         if casillero_esta_libre((fila+n,columna+n),tablero):
             movimientos_posibles.append((fila+n,columna+n))
-    
+        else:
+            break
     #filtrado de posicion no validas
     """for e in movimientos_posibles:
         if e[0] > 7 or e[1] > 7 :
@@ -157,7 +164,7 @@ def probar_mov(lista_posiciones):
         tablero[tupla]=(PEON,BLANCO)
 
     print_tablero(tablero)
-# instruciones para probar las funciones de movimietnos de piezas
+# instruciones para probar las funciones de movimietnos de piezas 
 tablero_inicio= crear_tablero()
 alfil = mover_alfil((3,4),tablero_inicio)
 
