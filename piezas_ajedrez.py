@@ -49,7 +49,7 @@ def obtner_pieza(tablero, posicion):
     color_pieza = pieza[1]
     return tipo_de_pieza, color_pieza 
     
-def casillero_esta_libre(posicion,tablero):
+def casillero_esta_libre(tablero,posicion):
     if posicion not in tablero:
         return True
 
@@ -77,52 +77,65 @@ def mover_caballo(posicion):
     
     return movimientos_posibles
 
-def mover_torre(posicion):
+def mover_torre(tablero,posicion):
     fila = posicion[0]
     columna = posicion[1]
     movimientos_posibles= []
     
-    for n  in range(8):
-        movimientos_posibles.append((n,columna))
-        movimientos_posibles.append((fila,n))
-    indice_posicion_actual = movimientos_posibles.index(posicion)
-    del movimientos_posibles[indice_posicion_actual]
-    indice_posicion_actual = movimientos_posibles.index(posicion)
-    del movimientos_posibles[indice_posicion_actual]
-
+    for n  in range(1,8-fila):
+        if casillero_esta_libre(tablero, (fila + n,columna)):
+            movimientos_posibles.append((fila + n,columna))
+        else:
+            break
+    for n in range(1,8-columna):
+        if casillero_esta_libre(tablero, (fila,columna + n)):
+            movimientos_posibles.append((fila,columna + n))
+        else:
+            break
+    for n  in range(fila+1):
+        if casillero_esta_libre(tablero, (fila - n,columna)):
+            movimientos_posibles.append((fila - n,columna))
+        else:
+            break
+    for n in range(columna+1):
+        if casillero_esta_libre(tablero, (fila,columna - n)):
+            movimientos_posibles.append((fila,columna - n))
+        else:
+            break
+                
     return movimientos_posibles
 
 
 
-def mover_alfil(posicion,tablero):
+def mover_alfil(tablero, posicion):
     fila = posicion[0]
     columna = posicion[1]
     movimientos_posibles = []
     # diagonal 1
     rango_1 = min(posicion)+1
     for n in range(1,rango_1):
-        if casillero_esta_libre((fila-n,columna-n),tablero):
+        if casillero_esta_libre(tablero, (fila-n,columna-n)):
             movimientos_posibles.append((fila-n,columna-n))
         else:
             break
     #diagonal 2
     rango_2 = min(fila, 7-columna)+1
     for n in range(1,rango_2+1):
-        if casillero_esta_libre((fila-n,columna+n),tablero):    
+        if casillero_esta_libre(tablero, (fila-n,columna+n)):    
             movimientos_posibles.append((fila-n,columna+n))
         else:
             break
     #diagonal 3
     rango_3 = min(6-fila,columna) +1
     for n in range (rango_3):
-        if casillero_esta_libre((fila+n,columna-n),tablero):
+        if casillero_esta_libre(tablero,(fila+n,columna-n)):
             movimientos_posibles.append((fila+n,columna-n)) 
         else:
             break
     #diagonal 4 
     rango_4 = min(6-fila,7-columna) +1  
     for n in range (1,rango_4):   
-        if casillero_esta_libre((fila+n,columna+n),tablero):
+        if casillero_esta_libre(tablero,(fila+n,columna+n)):
             movimientos_posibles.append((fila+n,columna+n))
         else:
             break
@@ -166,7 +179,8 @@ def probar_mov(lista_posiciones):
     print_tablero(tablero)
 # instruciones para probar las funciones de movimietnos de piezas 
 tablero_inicio= crear_tablero()
-alfil = mover_alfil((3,4),tablero_inicio)
+torre = mover_torre(tablero_inicio,(3,4))
 
-probar_mov(alfil)
+probar_mov(torre)
+print(torre)
 print_tablero(tablero_inicio)
