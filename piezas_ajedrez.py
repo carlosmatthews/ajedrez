@@ -86,22 +86,22 @@ def mover_torre(tablero,posicion):
         if casillero_esta_libre(tablero, (fila + n,columna)):
             movimientos_posibles.append((fila + n,columna))
         else:
-            break
+            break #todo comer pieza
     for n in range(1,8-columna):
         if casillero_esta_libre(tablero, (fila,columna + n)):
             movimientos_posibles.append((fila,columna + n))
         else:
-            break
+            break #todo comer pieza
     for n  in range(fila+1):
         if casillero_esta_libre(tablero, (fila - n,columna)):
             movimientos_posibles.append((fila - n,columna))
         else:
-            break
+            break #todo comer pieza
     for n in range(columna+1):
         if casillero_esta_libre(tablero, (fila,columna - n)):
             movimientos_posibles.append((fila,columna - n))
         else:
-            break
+            break #todo comer pieza
                 
     return movimientos_posibles
 
@@ -117,38 +117,30 @@ def mover_alfil(tablero, posicion):
         if casillero_esta_libre(tablero, (fila-n,columna-n)):
             movimientos_posibles.append((fila-n,columna-n))
         else:
-            break
+            break #todo comer pieza
     #diagonal 2
     rango_2 = min(fila, 7-columna)+1
     for n in range(1,rango_2+1):
         if casillero_esta_libre(tablero, (fila-n,columna+n)):    
             movimientos_posibles.append((fila-n,columna+n))
         else:
-            break
+            break #todo comer pieza
     #diagonal 3
     rango_3 = min(6-fila,columna) +1
     for n in range (rango_3):
         if casillero_esta_libre(tablero,(fila+n,columna-n)):
             movimientos_posibles.append((fila+n,columna-n)) 
         else:
-            break
+            break #todo comer pieza
     #diagonal 4 
     rango_4 = min(6-fila,7-columna) +1  
     for n in range (1,rango_4):   
         if casillero_esta_libre(tablero,(fila+n,columna+n)):
             movimientos_posibles.append((fila+n,columna+n))
         else:
-            break
-    #filtrado de posicion no validas
-    """for e in movimientos_posibles:
-        if e[0] > 7 or e[1] > 7 :
-            posicion_nula = movimientos_posibles.index(e)
-            del movimientos_posibles[posicion_nula]
-        if e[0] < 0 or e[1] < 0:
-            posicion_nula = movimientos_posibles.index(e)
-            del movimientos_posibles[posicion_nula]"""
+            break #todo comer pieza
+
     
-    print(movimientos_posibles)
     return movimientos_posibles
 
 # hacer funciones faltantes
