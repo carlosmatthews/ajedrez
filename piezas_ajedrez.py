@@ -1,6 +1,6 @@
 from ajedrez import representacion_piezas
 from ajedrez import print_tablero
-#####esta parte despues se borrar es para facilitar mientras se escribe######
+
 # tipos de piezas:
 REY = "R"
 REINA = "RA"
@@ -17,7 +17,7 @@ def crear_tablero():
     tablero = {}
     tablero[(0,0)] = (TORRE,    BLANCO)
     tablero[(0,1)] = (CABALLO,  BLANCO)
-    tablero[(0,2)] = (ALFIL,    BLANCO) 
+    tablero[(0,2)] = (ALFIL,    BLANCO)
     tablero[(0,3)] = (REINA,    BLANCO)
     tablero[(0,4)] = (REY,      BLANCO)
     tablero[(0,5)] = (ALFIL,    BLANCO)
@@ -27,7 +27,7 @@ def crear_tablero():
         tablero[1,i] = (PEON, BLANCO)
     tablero[(7,0)] = (TORRE,    NEGRO)
     tablero[(7,1)] = (CABALLO,  NEGRO)
-    tablero[(7,2)] = (ALFIL,    NEGRO) 
+    tablero[(7,2)] = (ALFIL,    NEGRO)
     tablero[(7,3)] = (REINA,    NEGRO)
     tablero[(7,4)] = (REY,      NEGRO)
     tablero[(7,5)] = (ALFIL,    NEGRO)
@@ -35,30 +35,30 @@ def crear_tablero():
     tablero[(7,7)] = (TORRE,    NEGRO)
     for i in range(8):
         tablero[6,i] = (PEON, NEGRO)
-    return tablero    
+    return tablero
 
 
 
 
-    
-    
+
+
 
 def obtner_pieza(tablero, posicion):
     pieza = tablero.get(posicion)
     tipo_de_pieza = pieza[0]
     color_pieza = pieza[1]
-    return tipo_de_pieza, color_pieza 
-    
+    return tipo_de_pieza, color_pieza
+
 def casillero_esta_libre(tablero,posicion):
     if posicion not in tablero:
         return True
 
-    
+
 def mover_peon(posicion):
-    mov_1 = (posicion[0]+1,posicion[1])   
+    mov_1 = (posicion[0]+1,posicion[1])
     mov_2 = (posicion[0]-1,posicion[1])
 
-    movimientos_posibles = [mov_1,mov_2]   
+    movimientos_posibles = [mov_1,mov_2]
     return movimientos_posibles
 
 def mover_caballo(posicion):
@@ -72,16 +72,16 @@ def mover_caballo(posicion):
     mov_6 = (fila +1,columna  +2)
     mov_7 = (fila +2, columna -1)
     mov_8 = (fila +2, columna +1)
-    
+
     movimientos_posibles = [mov_1,mov_2,mov_3,mov_4,mov_5,mov_6,mov_7,mov_8]
-    
+
     return movimientos_posibles
 
 def mover_torre(tablero,posicion):
     fila = posicion[0]
     columna = posicion[1]
     movimientos_posibles= []
-    
+
     for n  in range(1,8-fila):
         if casillero_esta_libre(tablero, (fila + n,columna)):
             movimientos_posibles.append((fila + n,columna))
@@ -102,7 +102,7 @@ def mover_torre(tablero,posicion):
             movimientos_posibles.append((fila,columna - n))
         else:
             break
-                
+
     return movimientos_posibles
 
 
@@ -121,7 +121,7 @@ def mover_alfil(tablero, posicion):
     #diagonal 2
     rango_2 = min(fila, 7-columna)+1
     for n in range(1,rango_2+1):
-        if casillero_esta_libre(tablero, (fila-n,columna+n)):    
+        if casillero_esta_libre(tablero, (fila-n,columna+n)):
             movimientos_posibles.append((fila-n,columna+n))
         else:
             break
@@ -129,12 +129,12 @@ def mover_alfil(tablero, posicion):
     rango_3 = min(6-fila,columna) +1
     for n in range (rango_3):
         if casillero_esta_libre(tablero,(fila+n,columna-n)):
-            movimientos_posibles.append((fila+n,columna-n)) 
+            movimientos_posibles.append((fila+n,columna-n))
         else:
             break
-    #diagonal 4 
-    rango_4 = min(6-fila,7-columna) +1  
-    for n in range (1,rango_4):   
+    #diagonal 4
+    rango_4 = min(6-fila,7-columna) +1
+    for n in range (1,rango_4):
         if casillero_esta_libre(tablero,(fila+n,columna+n)):
             movimientos_posibles.append((fila+n,columna+n))
         else:
@@ -147,7 +147,7 @@ def mover_alfil(tablero, posicion):
         if e[0] < 0 or e[1] < 0:
             posicion_nula = movimientos_posibles.index(e)
             del movimientos_posibles[posicion_nula]"""
-    
+
     print(movimientos_posibles)
     return movimientos_posibles
 
@@ -172,12 +172,12 @@ dicc_movimientos ={
 #y la funcion q le damos segun la íeza a probar
 def probar_mov(lista_posiciones):
     tablero = {}
-  
+
     for tupla in lista_posiciones:
         tablero[tupla]=(PEON,BLANCO)
 
     print_tablero(tablero)
-# instruciones para probar las funciones de movimietnos de piezas 
+# instruciones para probar las funciones de movimietnos de piezas
 tablero_inicio= crear_tablero()
 torre = mover_torre(tablero_inicio,(3,4))
 
