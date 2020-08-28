@@ -13,6 +13,7 @@ PEON = "P"
 BLANCO = "B"
 NEGRO = "N"
 
+
 def crear_tablero():
     tablero = {}
     tablero[(0,0)] = (TORRE,    BLANCO)
@@ -38,16 +39,12 @@ def crear_tablero():
     return tablero
 
 
-
-
-
-
-
 def obtner_pieza(tablero, posicion):
     pieza = tablero.get(posicion)
     tipo_de_pieza = pieza[0]
     color_pieza = pieza[1]
     return tipo_de_pieza, color_pieza
+
 
 def casillero_esta_libre(tablero,posicion):
     if posicion not in tablero:
@@ -60,6 +57,7 @@ def mover_peon(posicion):
 
     movimientos_posibles = [mov_1,mov_2]
     return movimientos_posibles
+
 
 def mover_caballo(posicion):
     fila = posicion[0]
@@ -76,6 +74,7 @@ def mover_caballo(posicion):
     movimientos_posibles = [mov_1,mov_2,mov_3,mov_4,mov_5,mov_6,mov_7,mov_8]
 
     return movimientos_posibles
+
 
 def mover_torre(tablero,posicion):
     fila = posicion[0]
@@ -104,7 +103,6 @@ def mover_torre(tablero,posicion):
             break
 
     return movimientos_posibles
-
 
 
 def mover_alfil(tablero, posicion):
@@ -153,9 +151,10 @@ def mover_alfil(tablero, posicion):
 
 # hacer funciones faltantes
 def mover_rey(posicion):
-   return print("todo rey")
+   return print("TODO rey")
+
 def mover_reina(posicion):
-    return print("todo reina")
+    return print("TODO reina")
 
 
 dicc_movimientos ={
@@ -177,9 +176,12 @@ def probar_mov(lista_posiciones):
         tablero[tupla]=(PEON,BLANCO)
 
     print_tablero(tablero)
+
+
 # instruciones para probar las funciones de movimietnos de piezas
 tablero_inicio= crear_tablero()
 torre = mover_torre(tablero_inicio,(3,4))
+
 
 probar_mov(torre)
 print(torre)
