@@ -121,7 +121,7 @@ def mover_alfil(tablero, posicion):
     
     return movimientos_posibles
 
-# hacer funciones faltantes
+
 def mover_rey(tablero, posicion):
    fila = posicion[0]
    columna = posicion[1]
@@ -132,16 +132,21 @@ def mover_rey(tablero, posicion):
             movimientos_posibles.append((fila +e[0],columna+e[1]))
    
    return movimientos_posibles
-
-"""def mover_reina(tablero, posicion):
+#
+def mover_reina(tablero, posicion): 
     movimientos_posibles = []
-    for n in range(-1,2):
-        for m in range(-1,2):
-            f = adelantar_un_casillero(tablero,posicion,(n,m))
-            movimientos_posibles.append(f)
-            print(n,m)
+    adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
+    """for n in range(-1,2):   # con este for se produce una expeccion de memoria, en teoria genera los
+        for m in range(-1,2):""" # las mismas posiciones que estna arriba, solo que agregra la (0,0)
+        #pero no deveria parar  nada ya que en la otra funcion a operacion es de suma..ej 1 + 0 =1
+        #no se bien eso no entiendo el por que
+    for e in adelantar:        
+            linea = adelantar_un_casillero(tablero,posicion,e)
+            movimientos_posibles = movimientos_posibles + linea
+            print(movimientos_posibles)
+    
     return movimientos_posibles
-"""
+
 
 dicc_movimientos ={
     PEON : mover_peon,
