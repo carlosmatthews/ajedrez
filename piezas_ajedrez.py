@@ -58,7 +58,32 @@ def mover_peon(posicion):
     movimientos_posibles = [mov_1,mov_2]
     return movimientos_posibles
 
+def limites_del_tablero(posicion):
+    if posicion[0] >= 0 and posicion[0] <= 7 and posicion[1] >=0 and posicion[1] <= 7:
+        return True
 
+
+
+def adelantar_un_casillero(tablero,posicion,direccion_tupla):
+    fila = posicion[0] + direccion_tupla[0]
+    columna = posicion[1] + direccion_tupla [1]
+    movimientos_posibles= []
+    
+    while True:
+        if casillero_esta_libre(tablero, (fila,columna)):
+            movimientos_posibles.append ((fila ,columna))
+            fila = fila + direccion_tupla[0]
+            columna = columna + direccion_tupla[1]
+        else:
+            break
+        
+        if fila > 7 or columna > 7:
+            break
+        if fila < 0 or columna < 0:
+            break
+       
+    return movimientos_posibles
+        
 def mover_caballo(posicion):
     fila = posicion[0]
     columna = posicion[1]
@@ -74,82 +99,49 @@ def mover_caballo(posicion):
     movimientos_posibles = [mov_1,mov_2,mov_3,mov_4,mov_5,mov_6,mov_7,mov_8]
 
     return movimientos_posibles
-
-
+    
 def mover_torre(tablero,posicion):
-    fila = posicion[0]
-    columna = posicion[1]
-    movimientos_posibles= []
-
-    for n  in range(1,8-fila):
-        if casillero_esta_libre(tablero, (fila + n,columna)):
-            movimientos_posibles.append((fila + n,columna))
-        else:
-            break #todo comer pieza
-    for n in range(1,8-columna):
-        if casillero_esta_libre(tablero, (fila,columna + n)):
-            movimientos_posibles.append((fila,columna + n))
-        else:
-            break #todo comer pieza
-    for n  in range(fila+1):
-        if casillero_esta_libre(tablero, (fila - n,columna)):
-            movimientos_posibles.append((fila - n,columna))
-        else:
-            break #todo comer pieza
-    for n in range(columna+1):
-        if casillero_esta_libre(tablero, (fila,columna - n)):
-            movimientos_posibles.append((fila,columna - n))
-        else:
-            break #todo comer pieza
+    izquierda = adelantar_un_casillero(tablero,posicion,(0,-1))
+    derecha = adelantar_un_casillero(tablero,posicion,(0,+1))
+    arriba = adelantar_un_casillero(tablero,posicion,(-1,0))
+    abajo = adelantar_un_casillero(tablero,posicion,(+1,0))
+    
+    movimientos_posibles= izquierda + derecha + arriba + abajo
                 
-    return movimientos_posibles
-
     return movimientos_posibles
 
 
 def mover_alfil(tablero, posicion):
-    fila = posicion[0]
-    columna = posicion[1]
-    movimientos_posibles = []
-    # diagonal 1
-    rango_1 = min(posicion)+1
-    for n in range(1,rango_1):
-        if casillero_esta_libre(tablero, (fila-n,columna-n)):
-            movimientos_posibles.append((fila-n,columna-n))
-        else:
-            break #todo comer pieza
-    #diagonal 2
-    rango_2 = min(fila, 7-columna)+1
-    for n in range(1,rango_2+1):
-        if casillero_esta_libre(tablero, (fila-n,columna+n)):
-            movimientos_posibles.append((fila-n,columna+n))
-        else:
-            break #todo comer pieza
-    #diagonal 3
-    rango_3 = min(6-fila,columna) +1
-    for n in range (rango_3):
-        if casillero_esta_libre(tablero,(fila+n,columna-n)):
-            movimientos_posibles.append((fila+n,columna-n))
-        else:
-            break #todo comer pieza
-    #diagonal 4 
-    rango_4 = min(6-fila,7-columna) +1  
-    for n in range (1,rango_4):   
-        if casillero_esta_libre(tablero,(fila+n,columna+n)):
-            movimientos_posibles.append((fila+n,columna+n))
-        else:
-            break #todo comer pieza
 
+    iz_arriba = adelantar_un_casillero(tablero,posicion,(-1,-1))
+    der_arriba = adelantar_un_casillero(tablero,posicion,(-1,+1))
+    iz_abajo = adelantar_un_casillero(tablero,posicion,(+1,-1))
+    der_abajo = adelantar_un_casillero(tablero,posicion,(+1,+1))
+    movimientos_posibles = iz_arriba + iz_abajo + der_arriba + der_abajo
     
     return movimientos_posibles
 
 # hacer funciones faltantes
-def mover_rey(posicion):
-   return print("TODO rey")
+def mover_rey(tablero, posicion):
+   fila = posicion[0]
+   columna = posicion[1]
+   movimientos_posibles = []
+   adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
+   for e in adelantar:
+       if casillero_esta_libre(tablero,(fila +e[0],columna+e[1])) and limites_del_tablero((fila +e[0],columna+e[1])):
+            movimientos_posibles.append((fila +e[0],columna+e[1]))
+   
+   return movimientos_posibles
 
-def mover_reina(posicion):
-    return print("TODO reina")
-
+"""def mover_reina(tablero, posicion):
+    movimientos_posibles = []
+    for n in range(-1,2):
+        for m in range(-1,2):
+            f = adelantar_un_casillero(tablero,posicion,(n,m))
+            movimientos_posibles.append(f)
+            print(n,m)
+    return movimientos_posibles
+"""
 
 dicc_movimientos ={
     PEON : mover_peon,
@@ -161,22 +153,3 @@ dicc_movimientos ={
     }
 
 
-#esta funcion es solo para probar las otras...grafica dado una posicion de pieza de inicio.
-#y la funcion q le damos segun la íeza a probar
-def probar_mov(lista_posiciones):
-    tablero = {}
-
-    for tupla in lista_posiciones:
-        tablero[tupla]=(PEON,BLANCO)
-
-    print_tablero(tablero)
-
-
-# instruciones para probar las funciones de movimietnos de piezas
-tablero_inicio= crear_tablero()
-torre = mover_torre(tablero_inicio,(3,4))
-
-
-probar_mov(torre)
-print(torre)
-print_tablero(tablero_inicio)

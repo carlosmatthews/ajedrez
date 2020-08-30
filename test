@@ -1,0 +1,24 @@
+from ajedrez import*
+from piezas_ajedrez import*
+
+#esta funcion es solo para probar las otras...grafica dado una posicion de pieza de inicio.
+#y la funcion q le damos segun la píeza a probar
+def probar_mov(lista_posiciones):
+    tablero = {}
+
+    for tupla in lista_posiciones:
+        tablero[tupla]=(PEON,BLANCO)
+
+    print_tablero(tablero)
+
+
+# instruciones para probar las funciones de movimietnos de piezas
+tablero_inicio= crear_tablero()
+
+
+
+numeros = mover_reina(tablero_inicio,(5,3))
+print(numeros)
+probar_mov(numeros)
+
+
