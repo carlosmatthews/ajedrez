@@ -61,27 +61,30 @@ def mover_peon(posicion):
 def limites_del_tablero(posicion):
     if posicion[0] >= 0 and posicion[0] <= 7 and posicion[1] >=0 and posicion[1] <= 7:
         return True
+    else:
+        return False
 
 
 
-def adelantar_un_casillero(tablero,posicion,direccion_tupla):
-    fila = posicion[0] + direccion_tupla[0]
-    columna = posicion[1] + direccion_tupla [1]
+def generar_posiciones_posibles(tablero, posicion, direccion_tupla):
+    #fila = posicion[0] + direccion_tupla[0]
+    #columna = posicion[1] + direccion_tupla [1]
+    posicion_nueva = (posicion[0] + direccion_tupla[0], posicion[1] + direccion_tupla[1])
     movimientos_posibles= []
     
     while True:
-        if casillero_esta_libre(tablero, (fila,columna)):
-            movimientos_posibles.append ((fila ,columna))
-            fila = fila + direccion_tupla[0]
-            columna = columna + direccion_tupla[1]
+        if casillero_esta_libre(tablero, posicion_nueva):
+            movimientos_posibles.append (posicion_nueva)
+            posicion_nueva = (posicion_nueva[0]+ direccion_tupla[0],posicion_nueva[1] + direccion_tupla[1])
         else:
             break
         
-        if fila > 7 or columna > 7:
+        if not limites_del_tablero(posicion_nueva):
             break
-        if fila < 0 or columna < 0:
-            break
-       
+
+
+
+
     return movimientos_posibles
         
 def mover_caballo(posicion):
@@ -101,10 +104,10 @@ def mover_caballo(posicion):
     return movimientos_posibles
     
 def mover_torre(tablero,posicion):
-    izquierda = adelantar_un_casillero(tablero,posicion,(0,-1))
-    derecha = adelantar_un_casillero(tablero,posicion,(0,+1))
-    arriba = adelantar_un_casillero(tablero,posicion,(-1,0))
-    abajo = adelantar_un_casillero(tablero,posicion,(+1,0))
+    izquierda = generar_posiciones_posibles(tablero,posicion,(0,-1))
+    derecha = generar_posiciones_posibles(tablero,posicion,(0,+1))
+    arriba = generar_posiciones_posibles(tablero,posicion,(-1,0))
+    abajo = generar_posiciones_posibles(tablero,posicion,(+1,0))
     
     movimientos_posibles= izquierda + derecha + arriba + abajo
                 
@@ -113,10 +116,10 @@ def mover_torre(tablero,posicion):
 
 def mover_alfil(tablero, posicion):
 
-    iz_arriba = adelantar_un_casillero(tablero,posicion,(-1,-1))
-    der_arriba = adelantar_un_casillero(tablero,posicion,(-1,+1))
-    iz_abajo = adelantar_un_casillero(tablero,posicion,(+1,-1))
-    der_abajo = adelantar_un_casillero(tablero,posicion,(+1,+1))
+    iz_arriba = generar_posiciones_posibles(tablero,posicion,(-1,-1))
+    der_arriba = generar_posiciones_posibles(tablero,posicion,(-1,+1))
+    iz_abajo = generar_posiciones_posibles(tablero,posicion,(+1,-1))
+    der_abajo = generar_posiciones_posibles(tablero,posicion,(+1,+1))
     movimientos_posibles = iz_arriba + iz_abajo + der_arriba + der_abajo
     
     return movimientos_posibles
@@ -141,8 +144,8 @@ def mover_reina(tablero, posicion):
         #pero no deveria parar  nada ya que en la otra funcion a operacion es de suma..ej 1 + 0 =1
         #no se bien eso no entiendo el por que
     for e in adelantar:        
-            linea = adelantar_un_casillero(tablero,posicion,e)
-            movimientos_posibles = movimientos_posibles + linea
+            linea_de_posiciones = generar_posiciones_posibles(tablero,posicion,e)
+            movimientos_posibles = movimientos_posibles + linea_de_posiciones
             print(movimientos_posibles)
     
     return movimientos_posibles
