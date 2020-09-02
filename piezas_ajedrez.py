@@ -59,23 +59,20 @@ def mover_peon(posicion):
     return movimientos_posibles
 
 def limites_del_tablero(posicion):
-    if posicion[0] >= 0 and posicion[0] <= 7 and posicion[1] >=0 and posicion[1] <= 7:
-        return True
-    else:
-        return False
+    return posicion[0] >= 0 and posicion[0] <= 7 and posicion[1] >=0 and posicion[1] <= 7
+   
 
 
 
-def generar_posiciones_posibles(tablero, posicion, direccion_tupla):
-    #fila = posicion[0] + direccion_tupla[0]
-    #columna = posicion[1] + direccion_tupla [1]
-    posicion_nueva = (posicion[0] + direccion_tupla[0], posicion[1] + direccion_tupla[1])
+def generar_posiciones_posibles(tablero, posicion, direccion):
+   
+    posicion_nueva = (posicion[0] + direccion[0], posicion[1] + direccion[1])
     movimientos_posibles= []
     
     while True:
         if casillero_esta_libre(tablero, posicion_nueva):
             movimientos_posibles.append (posicion_nueva)
-            posicion_nueva = (posicion_nueva[0]+ direccion_tupla[0],posicion_nueva[1] + direccion_tupla[1])
+            posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
         else:
             break
         
@@ -139,10 +136,6 @@ def mover_rey(tablero, posicion):
 def mover_reina(tablero, posicion): 
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
-    """for n in range(-1,2):   # con este for se produce una expeccion de memoria, en teoria genera los
-        for m in range(-1,2):""" # las mismas posiciones que estna arriba, solo que agregra la (0,0)
-        #pero no deveria parar  nada ya que en la otra funcion a operacion es de suma..ej 1 + 0 =1
-        #no se bien eso no entiendo el por que
     for e in adelantar:        
             linea_de_posiciones = generar_posiciones_posibles(tablero,posicion,e)
             movimientos_posibles = movimientos_posibles + linea_de_posiciones
