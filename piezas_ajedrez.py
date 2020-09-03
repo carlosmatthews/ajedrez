@@ -61,14 +61,16 @@ def mover_peon(posicion):
 def limites_del_tablero(posicion):
     return posicion[0] >= 0 and posicion[0] <= 7 and posicion[1] >=0 and posicion[1] <= 7
    
-def la_pieza_es_oponente(tablero, posicion_origen,posicion_destino):
-    origen = tablero.get(posicion_origen)
-    destino = tablero.get(posicion_destino)
+def la_pieza_es_oponente(tablero, posicion1,posicion2):
+    origen = tablero.get(posicion1)
+    destino = tablero.get(posicion2)
     return origen[1] != destino[1]
 
-    
-
-
+def destino_es_rey(tablero,posicion2):
+    destino = tablero.get(posicion2)
+    if destino == REY:
+        return True
+        
 
 def generar_posiciones_posibles(tablero, posicion, direccion):
    
@@ -80,7 +82,7 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
             movimientos_posibles.append (posicion_nueva)
             posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
         else:  #chequea si una posicion valida esta ocupada por oponene, y si true la agrega a posiciones_posibles
-            if la_pieza_es_oponente(tablero,posicion,posicion_nueva):
+            if la_pieza_es_oponente(tablero,posicion,posicion_nueva) and not destino_es_rey(tablero,posicion_nueva):
                 movimientos_posibles.append (posicion_nueva)
                 posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
                 break
