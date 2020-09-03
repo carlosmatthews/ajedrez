@@ -18,7 +18,7 @@ def crear_tablero():
     tablero = {}
     tablero[(0,0)] = (TORRE,    BLANCO)
     tablero[(0,1)] = (CABALLO,  BLANCO)
-    tablero[(0,2)] = (ALFIL,    BLANCO)
+    tablero[(5,2)] = (ALFIL,    BLANCO) ####corrido para pruebaaaaaaaa va en (0,2)
     tablero[(0,3)] = (REINA,    BLANCO)
     tablero[(0,4)] = (REY,      BLANCO)
     tablero[(0,5)] = (ALFIL,    BLANCO)
@@ -61,6 +61,12 @@ def mover_peon(posicion):
 def limites_del_tablero(posicion):
     return posicion[0] >= 0 and posicion[0] <= 7 and posicion[1] >=0 and posicion[1] <= 7
    
+def la_pieza_es_oponente(tablero, posicion_origen,posicion_destino):
+    origen = tablero.get(posicion_origen)
+    destino = tablero.get(posicion_destino)
+    return origen[1] != destino[1]
+
+    
 
 
 
@@ -73,18 +79,19 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
         if casillero_esta_libre(tablero, posicion_nueva):
             movimientos_posibles.append (posicion_nueva)
             posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
-        else:
-            break
+        else:  #chequea si una posicion valida esta ocupada por oponene, y si true la agrega a posiciones_posibles
+            if la_pieza_es_oponente(tablero,posicion,posicion_nueva):
+                movimientos_posibles.append (posicion_nueva)
+                posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
+                break
+            else:    
+                break
         
         if not limites_del_tablero(posicion_nueva):
             break
-
-
-
-
     return movimientos_posibles
         
-def mover_caballo(posicion):
+def mover_caballo(posicion): # ver que pasa si se va del tablero
     fila = posicion[0]
     columna = posicion[1]
     mov_1 = (fila -2, columna -1)
@@ -132,7 +139,7 @@ def mover_rey(tablero, posicion):
             movimientos_posibles.append((fila +e[0],columna+e[1]))
    
    return movimientos_posibles
-#
+
 def mover_reina(tablero, posicion): 
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
