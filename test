@@ -1,23 +1,53 @@
 from ajedrez import*
 from piezas_ajedrez import*
 
+def tablero_de_prueba():
+    
+    tablero = {}
+    tablero[(0,0)] = (TORRE,    BLANCO)
+    tablero[(0,1)] = (CABALLO,  BLANCO)
+    tablero[(0,2)] = (ALFIL,    BLANCO) 
+    tablero[(0,3)] = (REINA,    BLANCO)
+    tablero[(0,4)] = (REY,      BLANCO)
+    tablero[(0,5)] = (ALFIL,    BLANCO)
+    tablero[(0,6)] = (CABALLO,  BLANCO)
+    tablero[(0,7)] = (TORRE,    BLANCO)
+    #for i in range(8):
+    tablero[1,3] = (PEON, BLANCO)
+    
+    tablero[(7,0)] = (TORRE,    NEGRO)
+    tablero[(7,1)] = (CABALLO,  NEGRO)
+    tablero[(7,2)] = (ALFIL,    NEGRO)
+    tablero[(7,3)] = (REINA,    NEGRO)
+    tablero[(7,4)] = (REY,      NEGRO)
+    tablero[(7,5)] = (ALFIL,    NEGRO)
+    tablero[(7,6)] = (CABALLO,  NEGRO)
+    tablero[(7,7)] = (TORRE,    NEGRO)
+    for i in range(8):
+        tablero[6,i] = (PEON, NEGRO)
+    
+    
+    return tablero
+
+
 #esta funcion es solo para probar las otras...grafica dado una posicion de pieza de inicio.
 #y la funcion q le damos segun la píeza a probar
-def probar_funcion(lista_posiciones):
-    tablero = {}
+def probar_funcion(tablero,lista_posiciones):
+    tablero = tablero
 
     for tupla in lista_posiciones:
-        tablero[tupla]=(PEON,BLANCO)
+        tablero[tupla]= PEON, BLANCO
 
     print_tablero(tablero)
-
 
 # instruciones para probar las funciones de movimietnos de piezas
 tablero_inicio= crear_tablero()
 tablero_vacio = {}
-posiciones = mover_peon((2,3))
+
+
+posiciones = mover_peon(tablero_de_prueba(),(1,3))
 print(posiciones)
-probar_funcion(posiciones)
+probar_funcion(tablero_de_prueba(),posiciones)
 
 
 
