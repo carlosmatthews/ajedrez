@@ -68,9 +68,14 @@ def la_pieza_es_oponente(tablero, posicion1,posicion2):
 
 def destino_es_rey(tablero,posicion2):
     destino = tablero.get(posicion2)
-    if destino == REY:
+    print(destino)
+    if destino == None:
+        return False
+    
+    if destino[0] == "R":
         return True
-        
+    else:
+        return False    
 
 def generar_posiciones_posibles(tablero, posicion, direccion):
    

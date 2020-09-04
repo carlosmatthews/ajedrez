@@ -15,10 +15,9 @@ def probar_funcion(lista_posiciones):
 # instruciones para probar las funciones de movimietnos de piezas
 tablero_inicio= crear_tablero()
 tablero_vacio = {}
-posiciones = mover_alfil(tablero_inicio,(5,2))
+posiciones = destino_es_rey(tablero_inicio,(7,4))
 
-probar_funcion(posiciones)
-
+print(posiciones)
 
 
 
