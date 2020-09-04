@@ -51,13 +51,6 @@ def casillero_esta_libre(tablero,posicion):
         return True
 
 
-def mover_peon(posicion):
-    mov_1 = (posicion[0]+1,posicion[1])
-    mov_2 = (posicion[0]-1,posicion[1])
-
-    movimientos_posibles = [mov_1,mov_2]
-    return movimientos_posibles
-
 def limites_del_tablero(posicion):
     return posicion[0] >= 0 and posicion[0] <= 7 and posicion[1] >=0 and posicion[1] <= 7
    
@@ -97,7 +90,20 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
         if not limites_del_tablero(posicion_nueva):
             break
     return movimientos_posibles
-        
+
+
+def mover_peon(posicion):
+    
+    mov_1 = (posicion[0]+1,posicion[1])
+    mov_2 = (posicion[0]-1,posicion[1])
+    if limites_del_tablero(mov_1) and limites_del_tablero(mov_2):
+        movimientos_posibles = [mov_1 ,mov_2]
+
+    
+    return movimientos_posibles
+
+
+
 def mover_caballo(posicion): # ver que pasa si se va del tablero
     fila = posicion[0]
     columna = posicion[1]
