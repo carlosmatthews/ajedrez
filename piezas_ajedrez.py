@@ -95,7 +95,6 @@ def mover_peon(tablero, posicion): # TODO: moviento 2 casiileros 1er jugada
     movimientos_posibles = []
     turno = obtner_pieza(tablero,posicion)
     turno = turno[1]
-    print(turno)
     
     #movientos posibles 1 para adelante
     def uno_adelante(tablero, posicion):
