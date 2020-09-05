@@ -64,7 +64,7 @@ def destino_es_rey(tablero,posicion2):
     if destino == None:
         return False
     
-    if destino[0] == "R":
+    if destino[0] == "REY":
         return True
     else:
         return False    
@@ -103,7 +103,7 @@ def mover_peon(tablero, posicion): # TODO: moviento 2 casiileros 1er jugada
     #movimientos posibles comer/diagonal
     def pos_comer_diag(tablero,posicion1, posicion2):
         if not casillero_esta_libre(tablero, posicion2) :
-            if la_pieza_es_oponente(tablero, posicion1, mov_3):
+            if la_pieza_es_oponente(tablero, posicion1, posicion2): 
                 movimientos_posibles.append(posicion2) 
 
     #blancas hacia adelante
@@ -132,7 +132,7 @@ def mover_peon(tablero, posicion): # TODO: moviento 2 casiileros 1er jugada
 
 
 
-def mover_caballo(posicion): # ver que pasa si se va del tablero
+def mover_caballo(posicion): # TODO: filtrar que no se salga del tablero
     fila = posicion[0]
     columna = posicion[1]
     mov_1 = (fila -2, columna -1)

@@ -19,7 +19,7 @@ def tablero_de_prueba():
     tablero[(7,1)] = (CABALLO,  NEGRO)
     tablero[(7,2)] = (ALFIL,    NEGRO)
     tablero[(7,3)] = (REINA,    NEGRO)
-    tablero[(7,4)] = (REY,      NEGRO)
+    tablero[(3,2)] = (REY,      NEGRO)
     tablero[(7,5)] = (ALFIL,    NEGRO)
     tablero[(7,6)] = (CABALLO,  NEGRO)
     tablero[(7,7)] = (TORRE,    NEGRO)
@@ -36,7 +36,7 @@ def probar_funcion(tablero,lista_posiciones):
     tablero = tablero
 
     for tupla in lista_posiciones:
-        tablero[tupla]= PEON, BLANCO
+        tablero[tupla]= (PEON, BLANCO)
 
     print_tablero(tablero)
 
