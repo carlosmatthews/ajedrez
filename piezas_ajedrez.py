@@ -50,7 +50,7 @@ def casillero_esta_libre(tablero,posicion):
     if posicion not in tablero:
         return True
 
-def limites_del_tablero(posicion):
+def dentro_del_tablero(posicion):
     return posicion[0] >= 0 and posicion[0] <= 7 and posicion[1] >=0 and posicion[1] <= 7
    
 def la_pieza_es_oponente(tablero, posicion1,posicion2):
@@ -60,7 +60,6 @@ def la_pieza_es_oponente(tablero, posicion1,posicion2):
 
 def destino_es_rey(tablero,posicion2):
     destino = tablero.get(posicion2)
-    print(destino)
     if destino == None:
         return False
     
@@ -86,19 +85,19 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
             else:    
                 break
         
-        if not limites_del_tablero(posicion_nueva):
+        if not dentro_del_tablero(posicion_nueva):
             break
     return movimientos_posibles
 
 
-def mover_peon(tablero, posicion): # TODO: moviento 2 casiileros 1er jugada
+def mover_peon(tablero, posicion): # TODO: movimiento 2 casiileros 1er jugada
     movimientos_posibles = []
     turno = obtner_pieza(tablero,posicion)
     turno = turno[1]
     
-    #movientos posibles 1 para adelante
+    #movientos posibles hacia adelante
     def uno_adelante(tablero, posicion):
-        if limites_del_tablero(posicion) and casillero_esta_libre(tablero, posicion):
+        if dentro_del_tablero(posicion) and casillero_esta_libre(tablero, posicion):
             movimientos_posibles.append(posicion)
     #movimientos posibles comer/diagonal
     def pos_comer_diag(tablero,posicion1, posicion2):
@@ -176,7 +175,7 @@ def mover_rey(tablero, posicion):
    movimientos_posibles = []
    adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
    for e in adelantar:
-       if casillero_esta_libre(tablero,(fila +e[0],columna+e[1])) and limites_del_tablero((fila +e[0],columna+e[1])):
+       if casillero_esta_libre(tablero,(fila +e[0],columna+e[1])) and dentro_del_tablero((fila +e[0],columna+e[1])):
             movimientos_posibles.append((fila +e[0],columna+e[1]))
    
    return movimientos_posibles
