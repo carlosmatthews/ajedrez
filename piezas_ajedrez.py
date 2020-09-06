@@ -131,7 +131,7 @@ def mover_peon(tablero, posicion): # TODO: movimiento 2 casiileros 1er jugada
 
 
 
-def mover_caballo(posicion): # TODO: filtrar que no se salga del tablero
+def mover_caballo(posicion): 
     fila = posicion[0]
     columna = posicion[1]
     mov_1 = (fila -2, columna -1)
@@ -143,8 +143,14 @@ def mover_caballo(posicion): # TODO: filtrar que no se salga del tablero
     mov_7 = (fila +2, columna -1)
     mov_8 = (fila +2, columna +1)
 
-    movimientos_posibles = [mov_1,mov_2,mov_3,mov_4,mov_5,mov_6,mov_7,mov_8]
-
+    lista_movimientos = [mov_1,mov_2,mov_3,mov_4,mov_5,mov_6,mov_7,mov_8]
+    movimientos_posibles = []
+    
+    #filtrado posiciones fuera del tablero
+    for i in range(8):
+        if dentro_del_tablero(lista_movimientos[i]):
+            movimientos_posibles.append(lista_movimientos[i])
+            
     return movimientos_posibles
     
 def mover_torre(tablero,posicion):

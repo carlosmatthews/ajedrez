@@ -45,7 +45,7 @@ tablero_inicio= crear_tablero()
 tablero_vacio = {}
 
 
-posiciones = mover_peon(tablero_de_prueba(),(1,3))
+posiciones = mover_caballo((1,3))
 print(posiciones)
 probar_funcion(tablero_de_prueba(),posiciones)
 
