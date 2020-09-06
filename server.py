@@ -1,3 +1,6 @@
+# Este server se ejecuta haciendo: python server.py
+# Y despues lo accedes en el navegador en esta direccion: http://localhost:8000/
+
 import json
 from flask import Flask
 
