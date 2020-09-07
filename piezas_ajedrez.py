@@ -90,7 +90,7 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
     return movimientos_posibles
 
 
-def mover_peon(tablero, posicion): # TODO: movimiento 2 casiileros 1er jugada
+def movimientos_peon(tablero, posicion): # TODO: movimiento 2 casiileros 1er jugada
     movimientos_posibles = []
     turno = obtner_pieza(tablero,posicion)
     turno = turno[1]
@@ -131,7 +131,7 @@ def mover_peon(tablero, posicion): # TODO: movimiento 2 casiileros 1er jugada
 
 
 
-def mover_caballo(posicion): 
+def movimientos_caballo(posicion): 
     fila = posicion[0]
     columna = posicion[1]
     mov_1 = (fila -2, columna -1)
@@ -153,7 +153,7 @@ def mover_caballo(posicion):
             
     return movimientos_posibles
     
-def mover_torre(tablero,posicion):
+def movimientos_torre(tablero,posicion):
     izquierda = generar_posiciones_posibles(tablero,posicion,(0,-1))
     derecha = generar_posiciones_posibles(tablero,posicion,(0,+1))
     arriba = generar_posiciones_posibles(tablero,posicion,(-1,0))
@@ -164,7 +164,7 @@ def mover_torre(tablero,posicion):
     return movimientos_posibles
 
 
-def mover_alfil(tablero, posicion):
+def movimientos_alfil(tablero, posicion):
 
     iz_arriba = generar_posiciones_posibles(tablero,posicion,(-1,-1))
     der_arriba = generar_posiciones_posibles(tablero,posicion,(-1,+1))
@@ -175,7 +175,7 @@ def mover_alfil(tablero, posicion):
     return movimientos_posibles
 
 
-def mover_rey(tablero, posicion):
+def movimeintos_rey(tablero, posicion):
    fila = posicion[0]
    columna = posicion[1]
    movimientos_posibles = []
@@ -186,7 +186,7 @@ def mover_rey(tablero, posicion):
    
    return movimientos_posibles
 
-def mover_reina(tablero, posicion): 
+def movimientos_reina(tablero, posicion): 
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
     for e in adelantar:        
@@ -198,12 +198,12 @@ def mover_reina(tablero, posicion):
 
 
 dicc_movimientos ={
-    PEON : mover_peon,
-    TORRE : mover_torre,
-    CABALLO : mover_caballo,
-    ALFIL : mover_alfil,
-    REINA : mover_reina,
-    REY : mover_rey
+    PEON : movimientos_peon,
+    TORRE : movimientos_torre,
+    CABALLO : movimientos_caballo,
+    ALFIL : movimientos_alfil,
+    REINA : movimientos_reina,
+    REY : movimeintos_rey
     }
 
 
