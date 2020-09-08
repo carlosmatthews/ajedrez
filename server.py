@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Este server se ejecuta haciendo: python server.py
 # Y despues lo accedes en el navegador en esta direccion: http://localhost:8000/
 
