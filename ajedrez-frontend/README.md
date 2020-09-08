@@ -1,3 +1,19 @@
+# PARA INSTALAR #
+
+En el directorio ajedrez-frontend, ejecutar
+
+`npm install`
+
+# PARA CORRER # 
+
+`npm start`
+
+El resultado se verá en http://localhost:3000/
+
+***
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
