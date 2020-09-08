@@ -13,7 +13,22 @@ class Tablero extends Component {
 
   cargar_tablero() {
     console.log('cargar tablero');
-    this.setState({tablero: {} }); // TODO: llamar API de carli
+    const tablero = {}; // TODO: llamar API de carli
+    tablero[[1,0]] = ['P', 'B'];
+    tablero[[1,1]] = ['P', 'B'];
+    tablero[[0,0]] = ['T', 'B'];
+    tablero[[0,1]] = ['C', 'B'];
+    tablero[[0,2]] = ['A', 'B'];
+    tablero[[0,3]] = ['RA', 'B'];
+    tablero[[0,4]] = ['R', 'N'];
+
+    tablero[[6,7]] = ['P', 'N'];
+    tablero[[7,0]] = ['T', 'N'];
+    tablero[[7,1]] = ['C', 'N'];
+    tablero[[7,2]] = ['A', 'N'];
+    tablero[[7,3]] = ['RA', 'N'];
+    tablero[[7,4]] = ['R', 'N'];
+    this.setState({tablero: tablero});
   }
 
   click_casillero(f,c) {
@@ -31,7 +46,7 @@ class Tablero extends Component {
     for (const f of rango_8) {
       const fila = [];
       for (const c of rango_8) {
-        fila.push(null);
+        fila.push(tablero[[f,c]]);
       }
       filas.push(fila);
     }
@@ -53,10 +68,11 @@ class Tablero extends Component {
 
 const FilaTablero = (props) => <tr>
   <td>{props.f + 1}</td>
-  { props.fila.map((columna, c) =>
+  { props.fila.map((casillero, c) =>
     <Casillero key={[props.f, c]}
                f={props.f}
                c={c}
+               casillero={casillero}
                mov_posibles={props.mov_posibles}
                click={props.click}/>
    )}
@@ -64,12 +80,30 @@ const FilaTablero = (props) => <tr>
 
 class Casillero extends Component {
   render() {
+
+    const piezas = {};
+    piezas[['R','B']] = '♔';
+    piezas[['RA','B']] = '♕';
+    piezas[['T','B']] = '♖';
+    piezas[['C','B']] = '♘';
+    piezas[['A','B']] = '♗';
+    piezas[['P','B']] = '♙';
+    piezas[['R','N']] = '♚';
+    piezas[['RA','N']] = '♛';
+    piezas[['T','N']] = '♜';
+    piezas[['C','N']] = '♞';
+    piezas[['A','N']] = '♝';
+    piezas[['P','N']] = '♟︎';
+
     const props = this.props;
     const f = props.f;
     const c = props.c;
-    const color = (f + c) % 2 === 0 ? 'claro' : 'oscuro';
+    const casillero = props.casillero;
+    const color = (f + c) % 2 === 0 ? 'oscuro' : 'claro';
     const es_posible = props.mov_posibles.findIndex(([e0,e1]) => e0 === f && e1 === c) >= 0;
-    return <td className={`${color} ${es_posible && 'posible'}`} onClick={()=>props.click(f, c)}></td>;
+    const pieza = casillero ? piezas[casillero] : '';
+    console.log(f,c, pieza, pieza);
+    return <td className={`casillero ${color} ${es_posible && 'posible'}`} onClick={()=>props.click(f, c)}>{pieza}</td>;
   }
 }
 
