@@ -72,7 +72,6 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
    
     posicion_nueva = (posicion[0] + direccion[0], posicion[1] + direccion[1])
     movimientos_posibles= []
-    
     while True:
         if casillero_esta_libre(tablero, posicion_nueva):
             movimientos_posibles.append (posicion_nueva)
@@ -84,9 +83,7 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
                 break
             else:    
                 break
-        
-        if not dentro_del_tablero(posicion_nueva):
-            break
+        """if not dentro_del_tablero(posicion_nueva):
     return movimientos_posibles
 
 
