@@ -13,13 +13,18 @@
 
 #tablero td.casillero {
   font-size: 50px;
-  line-height: 50px
+  line-height: 50px;
+  cursor: pointer;
 }
 
-#tablero td.posible {border: 2px red solid;}
+#tablero td.posible {border: 2px blue solid;}
 
 #tablero td.claro { background: #f1ebc7; }
 #tablero td.oscuro { background: #b16132; }
+#tablero td.claro.seleccionada { background: #ffea6a; }
+#tablero td.oscuro.seleccionada { background: #f78d4f; }
+
+span.pieza {font-size: 50px;}
 
 body {
   padding: 10px;
