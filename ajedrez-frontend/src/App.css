@@ -6,14 +6,14 @@
 
 #tablero td {
   margin: 0;
-  height: 8vmin;
-  width: 8vmin;
+  height: 10vmin;
+  width: 10vmin;
   text-align: center;
 }
 
 #tablero td.casillero {
   font-size: 10vmin;
-  line-height: 8vmin;
+  line-height: 10vmin;
   cursor: pointer;
 }
 
