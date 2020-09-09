@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Tablero, {representacion_pieza} from './Tablero';
+import Tablero, {representacion_pieza, es_mov_posible} from './Tablero';
 
 class Partida extends Component {
   constructor(props) {
@@ -62,36 +62,37 @@ class Partida extends Component {
     const state = this.state;
     const tablero = state.tablero;
     const pieza = tablero[[f,c]];
-    if (!state.pos_seleccionada) {
-      if (pieza && pieza[1] === state.quien_juega) {
-        this.setState({
-          pieza_seleccionada: pieza,
-          pos_seleccionada: [f,c],
-        });
-      }
-    } else if (pieza && pieza[1] === state.quien_juega) {
+    if (pieza && pieza[1] === state.quien_juega) {
       this.setState({
         pieza_seleccionada: pieza,
         pos_seleccionada: [f,c],
+        mov_posibles: [],
       });
-    } else {
-      //chequear if movimiento posible
-      const pieza_original = tablero[state.pos_seleccionada];
-      delete tablero[state.pos_seleccionada];
-      tablero[[f,c]] = pieza_original;
-      this.setState({
-        pieza_seleccionada: null,
-        pos_seleccionada: null,
-        quien_juega: otro_color(state.quien_juega),
-      });
-      this.setState({})
+      //llamar a la API refrescar mov_posibles
+      return;
     }
+    const nuevo_state = {
+      pieza_seleccionada: null,
+      pos_seleccionada: null,
+      mov_posibles: [],
+    }
+    if (state.pos_seleccionada) {
+      //if (es_mov_posible(state.mov_posibles, [f,c])) {
+      if (true) {
+        const pieza_original = tablero[state.pos_seleccionada];
+        delete tablero[state.pos_seleccionada];
+        tablero[[f,c]] = pieza_original;
+        nuevo_state.tablero = tablero;
+        nuevo_state.quien_juega = otro_color(state.quien_juega);
+      }
+    }
+    this.setState(nuevo_state);
   }
 
   render() {
     const state=this.state;
     return <>
-      <h3>Juega {state.quien_juega === 'B' ? 'BLANCAS' : 'NEGRAS'}</h3>
+      <h3>Juegan {state.quien_juega === 'B' ? 'BLANCAS' : 'NEGRAS'}</h3>
       <Tablero tablero={state.tablero}
                mov_posibles={state.mov_posibles}
                pos_seleccionada={state.pos_seleccionada}

@@ -38,6 +38,10 @@ class Tablero extends Component {
   }
 }
 
+export const es_mov_posible = function(mov_posibles, pos) {
+  return mov_posibles.findIndex(([f,c]) => f === pos[0] && c === pos[1]) >= 0;
+};
+
 export const representacion_pieza = function(pieza) {
   const piezas = {};
   piezas[['R','B']] = '♔';
@@ -78,8 +82,8 @@ class Casillero extends Component {
     const pieza = representacion_pieza(casillero);
 
     const color = (f + c) % 2 === 0 ? 'oscuro' : 'claro';
-    const es_posible = props.mov_posibles.findIndex(([e0,e1]) => e0 === f && e1 === c) >= 0;
     const es_seleccionada = pos_seleccionada && pos_seleccionada[0] === f && pos_seleccionada[1] === c;
+    const es_posible = es_mov_posible(props.mov_posibles, [f,c]) && !es_seleccionada;
     const classes = `casillero ${color} ${es_posible && 'posible'} ${es_seleccionada && 'seleccionada'}`;
     return <td className={classes} onClick={()=>props.click(f, c)}>{pieza}</td>;
   }
