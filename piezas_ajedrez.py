@@ -128,7 +128,7 @@ def movimientos_peon(tablero, posicion): # TODO: movimiento 2 casiileros 1er jug
 
 
 
-def movimientos_caballo(posicion): 
+def movimientos_caballo(tablero,posicion): 
     fila = posicion[0]
     columna = posicion[1]
     mov_1 = (fila -2, columna -1)
