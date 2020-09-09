@@ -92,7 +92,7 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
     return movimientos_posibles
 
 
-def movimientos_peon(tablero, posicion): # TODO: movimiento 2 casiileros 1er jugada
+def movimientos_peon(tablero, posicion): # TODO: agregar movimiento 2 casiileros 1er jugada
     movimientos_posibles = []
     turno = obtner_pieza(tablero,posicion)
     turno = turno[1]
@@ -213,18 +213,17 @@ def rey_es_comido(tablero,poscion,movimientos_posibles):
  
     casilleros_no_posibles = []
     for e in tablero.items():
-        if e[1][1] == "N": #TODO:ver aca color como argumento
+        if e[1][1] == "N":          #TODO:ver aca color como argumento
             movientos_posibles_piezas(tablero_sin_rey,poscion)
 
     for e in movimientos_posibles:
         if e in casilleros_no_posibles:
             del movimientos_posibles[e]
 
-
             
     return movimientos_posibles       
 
-
+#esta funcion elije la funcion para cada pieza segun la posicion ##TODO:(y color y turno)
 def movientos_posibles_piezas(tablero,poscion):
     pieza = tablero[poscion]
     pieza = pieza
