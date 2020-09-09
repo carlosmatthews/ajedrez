@@ -74,8 +74,11 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
     movimientos_posibles= []
     while True:
         if casillero_esta_libre(tablero, posicion_nueva):
-            movimientos_posibles.append (posicion_nueva)
-            posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
+            if dentro_del_tablero(posicion_nueva):
+                movimientos_posibles.append (posicion_nueva)
+                posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
+            else:
+                break    
         else:  #chequea si una posicion valida esta ocupada por oponene, y si true la agrega a posiciones_posibles
             if la_pieza_es_oponente(tablero,posicion,posicion_nueva) and not destino_es_rey(tablero,posicion_nueva):
                 movimientos_posibles.append (posicion_nueva)
@@ -83,7 +86,9 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
                 break
             else:    
                 break
+        #TODO: revisar este cambio introduciodo en linea 77, luego borrar
         """if not dentro_del_tablero(posicion_nueva):
+            break"""
     return movimientos_posibles
 
 
@@ -157,6 +162,8 @@ def movimientos_torre(tablero,posicion):
     abajo = generar_posiciones_posibles(tablero,posicion,(+1,0))
     
     movimientos_posibles= izquierda + derecha + arriba + abajo
+
+    
                 
     return movimientos_posibles
 
@@ -173,28 +180,67 @@ def movimientos_alfil(tablero, posicion):
 
 
 
-   fila = posicion[0]
-   columna = posicion[1]
-   movimientos_posibles = []
-   adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
-   for e in adelantar:
-       if casillero_esta_libre(tablero,(fila +e[0],columna+e[1])) and dentro_del_tablero((fila +e[0],columna+e[1])):
-            movimientos_posibles.append((fila +e[0],columna+e[1]))
-   
-   return movimientos_posibles
 
+def movimientos_reina(tablero, posicion): 
+    movimientos_posibles = []
+    adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
+    for e in adelantar:        
+            linea_de_posiciones = generar_posiciones_posibles(tablero,posicion,e)
+            movimientos_posibles = movimientos_posibles + linea_de_posiciones
+           
     
+    return movimientos_posibles
+
+def movimientos_rey(tablero, posicion):
+    fila = posicion[0]
+    columna = posicion[1]
+    movimientos_posibles = []
+    adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
+    for e in adelantar:
+        if casillero_esta_libre(tablero,(fila +e[0],columna+e[1])) and dentro_del_tablero((fila +e[0],columna+e[1])):
+            movimientos_posibles.append((fila +e[0],columna+e[1]))
+    #sacando posicion donde pueden comer al rey
+    movimientos_posibles = rey_es_comido(tablero,posicion,movimientos_posibles)
     
     return movimientos_posibles
 
 
+def rey_es_comido(tablero,poscion,movimientos_posibles):
+    #estas lineas borrar al rey para chequear q pasa en el siguiente movimiento de este correctamente
+    tablero_sin_rey = tablero
+    
+    del (tablero_sin_rey[poscion]) #borra REY
+ 
+    casilleros_no_posibles = []
+    for e in tablero.items():
+        if e[1][1] == "N": #TODO:ver aca color como argumento
+            movientos_posibles_piezas(tablero_sin_rey,poscion)
 
-    PEON : movimientos_peon,
-    TORRE : movimientos_torre,
-    CABALLO : movimientos_caballo,
-    ALFIL : movimientos_alfil,
-    REINA : movimientos_reina,
-    REY : movimeintos_rey
-    }
+    for e in movimientos_posibles:
+        if e in casilleros_no_posibles:
+            del movimientos_posibles[e]
 
+
+            
+    return movimientos_posibles       
+
+
+def movientos_posibles_piezas(tablero,poscion):
+    pieza = tablero[poscion]
+    pieza = pieza
+
+    dicc_fun_movimientos ={
+        PEON : movimientos_peon,
+        TORRE : movimientos_torre,
+        CABALLO : movimientos_caballo,
+        ALFIL : movimientos_alfil,
+        REINA : movimientos_reina,
+        REY : movimientos_rey    }
+
+    
+    funcion = dicc_fun_movimientos.get(pieza)
+    salida = funcion(tablero, poscion)
+    return salida
+  
+    
 

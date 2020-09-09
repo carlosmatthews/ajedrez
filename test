@@ -13,13 +13,13 @@ def tablero_de_prueba():
     tablero[(0,6)] = (CABALLO,  BLANCO)
     tablero[(0,7)] = (TORRE,    BLANCO)
     #for i in range(8):
-    tablero[1,3] = (PEON, BLANCO)
+    #tablero[1,3] = (PEON, BLANCO)
     
     tablero[(7,0)] = (TORRE,    NEGRO)
     tablero[(7,1)] = (CABALLO,  NEGRO)
     tablero[(7,2)] = (ALFIL,    NEGRO)
     tablero[(7,3)] = (REINA,    NEGRO)
-    tablero[(3,2)] = (REY,      NEGRO)
+    tablero[(2,7)] = (REY,      NEGRO)
     tablero[(7,5)] = (ALFIL,    NEGRO)
     tablero[(7,6)] = (CABALLO,  NEGRO)
     tablero[(7,7)] = (TORRE,    NEGRO)
@@ -43,11 +43,16 @@ def probar_funcion(tablero,lista_posiciones):
 # instruciones para probar las funciones de movimietnos de piezas
 tablero_inicio= crear_tablero()
 tablero_vacio = {}
+tab_prue = tablero_de_prueba()
 
-
-posiciones = mover_caballo((1,3))
+"""posiciones = movimientos_caballo((1,3))
 print(posiciones)
 probar_funcion(tablero_de_prueba(),posiciones)
+"""
+
+"""f = movimientos_rey(tab_prue,(0,4))
+
+probar_funcion(tab_prue,f)"""
 
 
-
+print(movientos_posibles_piezas(tab_prue,(6,0)))
