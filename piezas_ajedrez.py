@@ -172,7 +172,7 @@ def movimientos_alfil(tablero, posicion):
     return movimientos_posibles
 
 
-def movimeintos_rey(tablero, posicion):
+
    fila = posicion[0]
    columna = posicion[1]
    movimientos_posibles = []
@@ -183,18 +183,12 @@ def movimeintos_rey(tablero, posicion):
    
    return movimientos_posibles
 
-def movimientos_reina(tablero, posicion): 
-    movimientos_posibles = []
-    adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
-    for e in adelantar:        
-            linea_de_posiciones = generar_posiciones_posibles(tablero,posicion,e)
-            movimientos_posibles = movimientos_posibles + linea_de_posiciones
-            print(movimientos_posibles)
+    
     
     return movimientos_posibles
 
 
-dicc_movimientos ={
+
     PEON : movimientos_peon,
     TORRE : movimientos_torre,
     CABALLO : movimientos_caballo,
