@@ -1,6 +1,3 @@
-from ajedrez import representacion_piezas
-from ajedrez import print_tablero
-
 # tipos de piezas:
 REY = "R"
 REINA = "RA"
@@ -86,31 +83,33 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
                 break
             else:    
                 break
-        #TODO: revisar este cambio introduciodo en linea 77, luego borrar
-        """if not dentro_del_tablero(posicion_nueva):
-            break"""
+      
     return movimientos_posibles
 
 
-def movimientos_peon(tablero, posicion): # TODO: agregar movimiento 2 casiileros 1er jugada
+def movimientos_peon(tablero, posicion): 
     movimientos_posibles = []
-    turno = obtner_pieza(tablero,posicion)
-    turno = turno[1]
+    jugador = obtner_pieza(tablero,posicion)
+    jugador = jugador[1]
     
     #movientos posibles hacia adelante
-    def uno_adelante(tablero, posicion):
-        if dentro_del_tablero(posicion) and casillero_esta_libre(tablero, posicion):
-            movimientos_posibles.append(posicion)
+    def para_adelante(tablero, movimiento):
+        if dentro_del_tablero(movimiento) and casillero_esta_libre(tablero, movimiento):
+            movimientos_posibles.append(movimiento)
     #movimientos posibles comer/diagonal
-    def pos_comer_diag(tablero,posicion1, posicion2):
-        if not casillero_esta_libre(tablero, posicion2) :
-            if la_pieza_es_oponente(tablero, posicion1, posicion2): 
-                movimientos_posibles.append(posicion2) 
+    def pos_comer_diag(tablero,posicion, movimiento):
+        if not casillero_esta_libre(tablero, movimiento) :
+            if la_pieza_es_oponente(tablero, posicion, movimiento): 
+                movimientos_posibles.append(movimiento) 
 
     #blancas hacia adelante
     mov_blancas = (posicion[0]+1,posicion[1]) 
     #negras hacia adelante
     mov_negras = (posicion[0]-1,posicion[1])  
+    #blancas 1er jugada
+    blanca_1er_jugada = (posicion[0]+2,posicion[1])
+    #negras 1er jugada
+    negra_1er_jugada = (posicion[0]-2,posicion[1]) 
     
     #para blancas diagonal
     mov_3 = (posicion[0]+1,posicion[1]-1)
@@ -119,16 +118,20 @@ def movimientos_peon(tablero, posicion): # TODO: agregar movimiento 2 casiileros
     mov_5 = (posicion[0]-1,posicion[1]-1)
     mov_6 = (posicion[0]-1,posicion[1]+1)
     
-    if turno == BLANCO: 
-        uno_adelante(tablero,mov_blancas)
+    if jugador == BLANCO: 
+        para_adelante(tablero,mov_blancas)
         pos_comer_diag(tablero,posicion,mov_3)
         pos_comer_diag(tablero,posicion,mov_4)
-    
+        if posicion[0] == 1:
+            para_adelante(tablero,blanca_1er_jugada) #mov 1er jugada
+            
     else:
-        uno_adelante(tablero,mov_negras)  
+        para_adelante(tablero,mov_negras)  
         pos_comer_diag(tablero,posicion,mov_5)
         pos_comer_diag(tablero,posicion,mov_6)   
-         
+        if posicion[0] == 6:
+            para_adelante(tablero, negra_1er_jugada) #mov 1er jugada
+    
     return movimientos_posibles
 
 
@@ -205,28 +208,12 @@ def movimientos_rey(tablero, posicion):
     return movimientos_posibles
 
 
-def rey_es_comido(tablero,poscion,movimientos_posibles):
-    #estas lineas borrar al rey para chequear q pasa en el siguiente movimiento de este correctamente
-    tablero_sin_rey = tablero
-    
-    del (tablero_sin_rey[poscion]) #borra REY
- 
-    casilleros_no_posibles = []
-    for e in tablero.items():
-        if e[1][1] == "N":          #TODO:ver aca color como argumento
-            movientos_posibles_piezas(tablero_sin_rey,poscion)
 
-    for e in movimientos_posibles:
-        if e in casilleros_no_posibles:
-            del movimientos_posibles[e]
 
-            
-    return movimientos_posibles       
-
-#esta funcion elije la funcion para cada pieza segun la posicion ##TODO:(y color y turno)
-def movientos_posibles_piezas(tablero,poscion):
-    pieza = tablero[poscion]
-    pieza = pieza
+#esta funcion elije la funcion para cada pieza segun la posicion 
+def movimientos_posibles_piezas(tablero,posicion):
+    pieza = tablero[posicion]
+    pieza = pieza[0]
 
     dicc_fun_movimientos ={
         PEON : movimientos_peon,
@@ -238,8 +225,26 @@ def movientos_posibles_piezas(tablero,poscion):
 
     
     funcion = dicc_fun_movimientos.get(pieza)
-    salida = funcion(tablero, poscion)
-    return salida
+    salida = funcion(tablero, posicion)
+    
+    return salida 
   
     
 
+def rey_es_comido(tablero,poscion,movimientos_posibles):
+    #estas lineas borrar al rey para chequear q pasa en el siguiente movimiento de este correctamente
+    tablero_sin_rey = tablero
+    
+    del (tablero_sin_rey[poscion]) #borra REY
+ 
+    casilleros_no_posibles = []
+    for e in tablero.items():
+        if e[1][1] == "N":        #TODO:ver aca color como argumento
+            movimientos_posibles_piezas(tablero_sin_rey,poscion) #FIXME:rey frente hay rey, bucle infinito
+
+    for e in movimientos_posibles:
+        if e in casilleros_no_posibles:
+            del movimientos_posibles[e]
+
+                                       
+    return movimientos_posibles       

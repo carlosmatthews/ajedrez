@@ -1,3 +1,5 @@
+from piezas_ajedrez import movimientos_posibles_piezas
+
 # tipos de piezas:
 REY = "R"
 REINA = "RA"
@@ -55,14 +57,21 @@ def representacion_piezas(nombre_pieza):
     }
     return convercion[nombre_pieza]
 
-def chequear_movimiento(tablero,posicion1,posicion2,turno_de): 
+def chequear_movimiento(tablero,posicion1,posicion2,jugador): 
     #revisa que alla un pieza en casillero a mover
     if posicion1 not in tablero:
         print("no hay pieza en el casillero")
         return False 
-       
+    
+    print("pos_posibles",movimientos_posibles_piezas(tablero,posicion1))
+    
     pieza_ataque = tablero[posicion1]
-    color_ataque = pieza_ataque[1] 
+    color_ataque = pieza_ataque[1]
+    #revisa si eljijio pieza de acuerdo al color del turno
+    if jugador != color_ataque:
+        print("elija un pieza del color",color_ataque)         
+        return False   
+    
     #revisa si hay pieza en casillero destino y si es del oponente
     if posicion2 in tablero:
         pieza_destino = tablero.get((posicion2))
@@ -70,11 +79,16 @@ def chequear_movimiento(tablero,posicion1,posicion2,turno_de):
         if color_ataque == color_destino:
             print("no puede comer su propia pieza")
             return False
-    #revisa si eljijio pieza de acuerdo al color del turno
-    if turno_de != color_ataque:
-        print("elija un pieza del color",color_ataque)         
+    #revisa los movimietos pósibles segun tipo de pieza
+    if posicion2 in movimientos_posibles_piezas(tablero,posicion1):
+        
+        return True
+    else:
+        print("posicion invalida para esa pieza")
         return False
-    
+
+
+
     return True
 
 
@@ -89,25 +103,9 @@ def mover(tablero, posicion1, posicion2):
     #if not chequear:
         #print("movimiento invalido, vuelve a introducir jugada")
        
-    return tablero 
-
+    return tablero        
+   
     
-        
-        
-    
-    
-    
-# hacer un main que te vaya pidiendo 2 posiciones, y haga el movimiento
-
-
-""" def come_a(tipo_pieza, posicion, posicion2):
-    # come_a(TORRE, (0,0), (1,0)) -> True
-    # come_a(PEON, (1,2), (2,2)) -> False
-    # come_a(PEON, (1,2), (2,3)) -> True
-    # come_a(PEON, (1,2), (2,3)) -> True
-    pass """
-
-
 
 def print_tablero(tablero):  
     print()

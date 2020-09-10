@@ -55,4 +55,4 @@ probar_funcion(tablero_de_prueba(),posiciones)
 probar_funcion(tab_prue,f)"""
 
 
-print(movientos_posibles_piezas(tab_prue,(6,0)))
+print(movimientos_posibles_piezas(tab_prue,(6,0)))
