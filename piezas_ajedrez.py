@@ -212,7 +212,7 @@ def movimientos_rey(tablero, posicion):
 
 #esta funcion elije la funcion para cada pieza segun la posicion 
 def movimientos_posibles_piezas(tablero,posicion):
-    pieza = tablero[posicion]
+    pieza = tablero.get(posicion)
     pieza = pieza[0]
 
     dicc_fun_movimientos ={

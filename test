@@ -45,14 +45,15 @@ tablero_inicio= crear_tablero()
 tablero_vacio = {}
 tab_prue = tablero_de_prueba()
 
-"""posiciones = movimientos_caballo((1,3))
-print(posiciones)
-probar_funcion(tablero_de_prueba(),posiciones)
-"""
 
-"""f = movimientos_rey(tab_prue,(0,4))
-
-probar_funcion(tab_prue,f)"""
+#probar_funcion(tablero_de_prueba(),posiciones)
 
 
-print(movimientos_posibles_piezas(tab_prue,(6,0)))
+f = movimientos_rey(tab_prue,(0,4))
+
+#probar_funcion(tab_prue,f)
+
+
+#print(movimientos_posibles_piezas(tab_prue,(0,4)))
+
+#print(tab_prue.get((0,4)))

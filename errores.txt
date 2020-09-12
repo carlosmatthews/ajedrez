@@ -1,4 +1,4 @@
-xception has occurred: KeyError
+exception has occurred: KeyError
 (7, 4)
   File "C:\Users\carlos\workspace\ajedrez\piezas_ajedrez.py", line 217, in movimientos_posibles_piezas
     
