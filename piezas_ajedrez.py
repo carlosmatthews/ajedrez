@@ -166,8 +166,6 @@ def movimientos_torre(tablero,posicion):
     
     movimientos_posibles= izquierda + derecha + arriba + abajo
 
-    
-                
     return movimientos_posibles
 
 
