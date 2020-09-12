@@ -151,10 +151,16 @@ def movimientos_caballo(tablero,posicion):
     lista_movimientos = [mov_1,mov_2,mov_3,mov_4,mov_5,mov_6,mov_7,mov_8]
     movimientos_posibles = []
     
-    #filtrado posiciones fuera del tablero
+    #filtrado posiciones fuera del tablero , posciones ocupadas y si se puede comer
     for i in range(8):
         if dentro_del_tablero(lista_movimientos[i]):
+            if casillero_esta_libre(tablero, lista_movimientos[i]):
             movimientos_posibles.append(lista_movimientos[i])
+            else:
+                if la_pieza_es_oponente(tablero,posicion,lista_movimientos[i]):
+                    movimientos_posibles.append(lista_movimientos[i]) 
+            
+                    
             
     return movimientos_posibles
     
