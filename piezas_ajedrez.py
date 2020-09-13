@@ -65,29 +65,29 @@ def destino_es_rey(tablero,posicion2):
     else:
         return False    
 
+def se_puede_comer(tablero, posicion, posicion2):
+    salida = la_pieza_es_oponente(tablero, posicion, posicion2) and not destino_es_rey(tablero, posicion2)
+    return salida
+
+
 def generar_posiciones_posibles(tablero, posicion, direccion):
-   
-    posicion_nueva = (posicion[0] + direccion[0], posicion[1] + direccion[1])
     movimientos_posibles= []
+    posicion_nueva = posicion
     while True:
+        posicion_nueva = (posicion_nueva[0] + direccion[0], posicion_nueva[1] + direccion[1])
+        if not dentro_del_tablero(posicion_nueva):
+            break
+
         if casillero_esta_libre(tablero, posicion_nueva):
-            if dentro_del_tablero(posicion_nueva):
-                movimientos_posibles.append (posicion_nueva)
-                posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
-            else:
-                break    
-        else:  #chequea si una posicion valida esta ocupada por oponene, y si true la agrega a posiciones_posibles
-            if la_pieza_es_oponente(tablero,posicion,posicion_nueva) and not destino_es_rey(tablero,posicion_nueva):
-                movimientos_posibles.append (posicion_nueva)
-                posicion_nueva = (posicion_nueva[0]+ direccion[0],posicion_nueva[1] + direccion[1])
-                break
-            else:    
-                break
-      
+            movimientos_posibles.append(posicion_nueva)
+        else:  
+            if se_puede_comer(tablero, posicion, posicion_nueva):
+                movimientos_posibles.append(posicion_nueva)     
+            break
     return movimientos_posibles
 
 
-def movimientos_peon(tablero, posicion): 
+def movimientos_peon(tablero, posicion, para_chequear_rey = False): 
     movimientos_posibles = []
     jugador = obtner_pieza(tablero,posicion)
     jugador = jugador[1]
@@ -118,25 +118,27 @@ def movimientos_peon(tablero, posicion):
     mov_5 = (posicion[0]-1,posicion[1]-1)
     mov_6 = (posicion[0]-1,posicion[1]+1)
     
-    if jugador == BLANCO: 
-        para_adelante(tablero,mov_blancas)
+    if jugador == BLANCO: # TODO: no duplicar codigo
         pos_comer_diag(tablero,posicion,mov_3)
         pos_comer_diag(tablero,posicion,mov_4)
-        if posicion[0] == 1:
-            para_adelante(tablero,blanca_1er_jugada) #mov 1er jugada
+        if not para_chequear_rey:
+            para_adelante(tablero,mov_blancas)    
+            if posicion[0] == 1:
+                para_adelante(tablero,blanca_1er_jugada) #mov 1er jugada
             
     else:
-        para_adelante(tablero,mov_negras)  
         pos_comer_diag(tablero,posicion,mov_5)
-        pos_comer_diag(tablero,posicion,mov_6)   
-        if posicion[0] == 6:
-            para_adelante(tablero, negra_1er_jugada) #mov 1er jugada
+        pos_comer_diag(tablero,posicion,mov_6) 
+        if not para_chequear_rey:
+            para_adelante(tablero,mov_negras)
+            if posicion[0] == 6:
+                para_adelante(tablero, negra_1er_jugada) #mov 1er jugada
     
     return movimientos_posibles
 
 
 
-def movimientos_caballo(tablero,posicion): 
+def movimientos_caballo(tablero,posicion, para_chequear_rey = False): 
     fila = posicion[0]
     columna = posicion[1]
     mov_1 = (fila -2, columna -1)
@@ -155,27 +157,27 @@ def movimientos_caballo(tablero,posicion):
     for i in range(8):
         if dentro_del_tablero(lista_movimientos[i]):
             if casillero_esta_libre(tablero, lista_movimientos[i]):
-            movimientos_posibles.append(lista_movimientos[i])
+                movimientos_posibles.append(lista_movimientos[i])
             else:
                 if la_pieza_es_oponente(tablero,posicion,lista_movimientos[i]):
                     movimientos_posibles.append(lista_movimientos[i]) 
-            
+
                     
             
     return movimientos_posibles
     
-def movimientos_torre(tablero,posicion):
+def movimientos_torre(tablero,posicion, para_chequear_rey = False):
     izquierda = generar_posiciones_posibles(tablero,posicion,(0,-1))
     derecha = generar_posiciones_posibles(tablero,posicion,(0,+1))
     arriba = generar_posiciones_posibles(tablero,posicion,(-1,0))
     abajo = generar_posiciones_posibles(tablero,posicion,(+1,0))
     
     movimientos_posibles= izquierda + derecha + arriba + abajo
-
+                    
     return movimientos_posibles
 
 
-def movimientos_alfil(tablero, posicion):
+def movimientos_alfil(tablero, posicion, para_chequear_rey = False):
 
     iz_arriba = generar_posiciones_posibles(tablero,posicion,(-1,-1))
     der_arriba = generar_posiciones_posibles(tablero,posicion,(-1,+1))
@@ -188,7 +190,7 @@ def movimientos_alfil(tablero, posicion):
 
 
 
-def movimientos_reina(tablero, posicion): 
+def movimientos_reina(tablero, posicion, para_chequear_rey = False): 
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
     for e in adelantar:        
@@ -198,16 +200,20 @@ def movimientos_reina(tablero, posicion):
     
     return movimientos_posibles
 
-def movimientos_rey(tablero, posicion):
-    fila = posicion[0]
-    columna = posicion[1]
+
+
+def movimientos_rey(tablero, posicion, para_chequear_rey=False): 
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
+
     for e in adelantar:
-        if casillero_esta_libre(tablero,(fila +e[0],columna+e[1])) and dentro_del_tablero((fila +e[0],columna+e[1])):
-            movimientos_posibles.append((fila +e[0],columna+e[1]))
-    #sacando posicion donde pueden comer al rey
-    movimientos_posibles = rey_es_comido(tablero,posicion,movimientos_posibles)
+        posicion2 = (posicion[0] + e[0], posicion[1] + e[1])
+        if not dentro_del_tablero(posicion2):
+            continue
+        if casillero_esta_libre(tablero, posicion2) or se_puede_comer(tablero, posicion, posicion2):
+            movimientos_posibles.append(posicion2)
+    if not para_chequear_rey:
+        movimientos_posibles = rey_es_comido(tablero, posicion, movimientos_posibles)
     
     return movimientos_posibles
 
@@ -215,7 +221,7 @@ def movimientos_rey(tablero, posicion):
 
 
 #esta funcion elije la funcion para cada pieza segun la posicion 
-def movimientos_posibles_piezas(tablero,posicion):
+def movimientos_pieza(tablero,posicion, para_chequear_rey = False):
     pieza = tablero.get(posicion)
     pieza = pieza[0]
 
@@ -225,30 +231,34 @@ def movimientos_posibles_piezas(tablero,posicion):
         CABALLO : movimientos_caballo,
         ALFIL : movimientos_alfil,
         REINA : movimientos_reina,
-        REY : movimientos_rey    }
+        REY : movimientos_rey
+    }
 
-    
     funcion = dicc_fun_movimientos.get(pieza)
-    salida = funcion(tablero, posicion)
+    salida = funcion(tablero, posicion, para_chequear_rey = para_chequear_rey)
     
     return salida 
   
     
-
-def rey_es_comido(tablero,poscion,movimientos_posibles):
-    #estas lineas borrar al rey para chequear q pasa en el siguiente movimiento de este correctamente
-    tablero_sin_rey = tablero
+#####FIXME: PROBLEMA NO SE PUEDE LLAMAR A MOV POS SIN EL REY PARA EL  FUNCION REY
+def rey_es_comido(tablero,posicion,movimientos_posibles):
+    jugador = tablero.get(posicion)
+    color_de_pieza = jugador[1] # color del rey q consulta
     
-    del (tablero_sin_rey[poscion]) #borra REY
+    tablero_sin_rey = tablero.copy()
+    del tablero_sin_rey[posicion]
  
     casilleros_no_posibles = []
-    for e in tablero.items():
-        if e[1][1] == "N":        #TODO:ver aca color como argumento
-            movimientos_posibles_piezas(tablero_sin_rey,poscion) #FIXME:rey frente hay rey, bucle infinito
+    
+    for pos,pieza in tablero.items():
+        if pieza[1] != color_de_pieza :
+            casilleros_no_posibles += movimientos_pieza(tablero_sin_rey, pos, para_chequear_rey=True) 
+            # print("p",pos, "pos", movimientos_pieza(tablero_sin_rey, pos))
 
     for e in movimientos_posibles:
         if e in casilleros_no_posibles:
-            del movimientos_posibles[e]
-
-                                       
+            poscion_a_borrar = movimientos_posibles.index(e)
+            del movimientos_posibles[poscion_a_borrar]
+   
+                                
     return movimientos_posibles       

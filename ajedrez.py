@@ -11,6 +11,10 @@ PEON = "P"
 # colores de piezas:
 BLANCO = "B"
 NEGRO = "N"
+#   marcas de casillero
+ASTERISCO = "*"
+
+
 
 def crear_tablero():
     tablero = {}
@@ -53,7 +57,9 @@ def representacion_piezas(nombre_pieza):
         (ALFIL,    NEGRO):"♝",
         (REINA,    NEGRO):"♛",
         (REY,      NEGRO):"♚",
-        (PEON,     NEGRO):"♟"
+        (PEON,     NEGRO):"♟",
+        (ASTERISCO, BLANCO):"*",    
+        (ASTERISCO, NEGRO): "*" 
     }
     return convercion[nombre_pieza]
 
