@@ -101,39 +101,26 @@ def movimientos_peon(tablero, posicion, para_chequear_rey = False):
         if not casillero_esta_libre(tablero, movimiento) :
             if la_pieza_es_oponente(tablero, posicion, movimiento): 
                 movimientos_posibles.append(movimiento) 
-
-    #blancas hacia adelante
-    mov_blancas = (posicion[0]+1,posicion[1]) 
-    #negras hacia adelante
-    mov_negras = (posicion[0]-1,posicion[1])  
-    #blancas 1er jugada
-    blanca_1er_jugada = (posicion[0]+2,posicion[1])
-    #negras 1er jugada
-    negra_1er_jugada = (posicion[0]-2,posicion[1]) 
-    
-    #para blancas diagonal
-    mov_3 = (posicion[0]+1,posicion[1]-1)
-    mov_4 =(posicion[0]+1,posicion[1]+1)
-    #para negras diagonal
-    mov_5 = (posicion[0]-1,posicion[1]-1)
-    mov_6 = (posicion[0]-1,posicion[1]+1)
-    
-    if jugador == BLANCO: # TODO: no duplicar codigo
-        pos_comer_diag(tablero,posicion,mov_3)
-        pos_comer_diag(tablero,posicion,mov_4)
-        if not para_chequear_rey:
-            para_adelante(tablero,mov_blancas)    
-            if posicion[0] == 1:
-                para_adelante(tablero,blanca_1er_jugada) #mov 1er jugada
-            
+        
+    if jugador == BLANCO:
+        #blancas hacia adelante
+        mov_adelante = (posicion[0]+1,posicion[1]) 
+        #blancas 1er jugada
+        primer_jugada = (posicion[0]+2,posicion[1])
+        
     else:
-        pos_comer_diag(tablero,posicion,mov_5)
-        pos_comer_diag(tablero,posicion,mov_6) 
-        if not para_chequear_rey:
-            para_adelante(tablero,mov_negras)
-            if posicion[0] == 6:
-                para_adelante(tablero, negra_1er_jugada) #mov 1er jugada
-    
+            #negras hacia adelante
+        mov_adelante = (posicion[0]-1,posicion[1])  
+            #negras 1er jugada
+        primer_jugada = (posicion[0]-2,posicion[1])   
+        
+    pos_comer_diag(tablero,posicion, (mov_adelante[0], mov_adelante[1]+1))
+    pos_comer_diag(tablero,posicion, (mov_adelante[0], mov_adelante[1]-1))
+    if not para_chequear_rey:
+        para_adelante(tablero,mov_adelante)    
+        if posicion[0] == 1:
+            para_adelante(tablero,primer_jugada) #mov 1er jugada
+            
     return movimientos_posibles
 
 

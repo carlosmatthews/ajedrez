@@ -1,4 +1,4 @@
-from piezas_ajedrez import movimientos_posibles_piezas
+from piezas_ajedrez import movimientos_pieza
 
 # tipos de piezas:
 REY = "R"
@@ -68,14 +68,13 @@ def chequear_movimiento(tablero,posicion1,posicion2,jugador):
     if posicion1 not in tablero:
         print("no hay pieza en el casillero")
         return False 
-    
-    print("pos_posibles",movimientos_posibles_piezas(tablero,posicion1))
-    
-    pieza_ataque = tablero[posicion1]
+       
+    pieza_ataque = tablero.get(posicion1)
+    print(pieza_ataque)
     color_ataque = pieza_ataque[1]
     #revisa si eljijio pieza de acuerdo al color del turno
     if jugador != color_ataque:
-        print("elija un pieza del color",color_ataque)         
+        print("elija un pieza del color",jugador)         
         return False   
     
     #revisa si hay pieza en casillero destino y si es del oponente
@@ -86,8 +85,7 @@ def chequear_movimiento(tablero,posicion1,posicion2,jugador):
             print("no puede comer su propia pieza")
             return False
     #revisa los movimietos pósibles segun tipo de pieza
-    if posicion2 in movimientos_posibles_piezas(tablero,posicion1):
-        
+    if posicion2 in movimientos_pieza(tablero,posicion1):
         return True
     else:
         print("posicion invalida para esa pieza")
@@ -101,14 +99,10 @@ def chequear_movimiento(tablero,posicion1,posicion2,jugador):
 
 
 def mover(tablero, posicion1, posicion2):
-    #chequear = chequear_movimiento(tablero,posicion1,posicion2)  
-    #if chequear : 
     pieza = tablero.get(posicion1)
     tablero[posicion2] = pieza
     del tablero[posicion1] 
-    #if not chequear:
-        #print("movimiento invalido, vuelve a introducir jugada")
-       
+    
     return tablero        
    
     

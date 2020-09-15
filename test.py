@@ -64,5 +64,5 @@ probar_funcion(tab_prue,[2,1])
 
 #print(tab_prue.get((0,4)))
 
-
-probar_funcion(c)
+print(c)
+probar_funcion(tab_prue, c)

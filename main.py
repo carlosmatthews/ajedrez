@@ -9,7 +9,6 @@ tablero = {}
 jugador = None
 
 while True:
-    print(numero_de_jugada)
     if numero_de_jugada % 2 == 0 :
         jugador = BLANCO
     else:
