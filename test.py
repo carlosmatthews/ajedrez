@@ -13,7 +13,7 @@ def tablero_de_prueba():
     tablero[(0,6)] = (CABALLO,  BLANCO)
     tablero[(0,7)] = (TORRE,    BLANCO)
     #for i in range(8):
-    #tablero[1,3] = (PEON, BLANCO)
+    tablero[1,3] = (PEON, BLANCO)
     
     tablero[(7,0)] = (TORRE,    NEGRO)
     tablero[(7,1)] = (CABALLO,  NEGRO)
@@ -52,8 +52,8 @@ def probar_funcion(tablero ,lista_posiciones):
 #probar_funcion(tablero_de_prueba(),posiciones)
 
 
-f = movimientos_rey(tab_prue,(4,4))
-c = rey_es_comido(tab_prue,(4,4),f)
+"""f = movimientos_rey(tab_prue,(4,4))
+c = rey_es_comido(tab_prue,(4,4),f)"""
 """
 cava = movimientos_torre   (tab_prue,(0,0))
 print(cava)
@@ -64,5 +64,7 @@ probar_funcion(tab_prue,[2,1])
 
 #print(tab_prue.get((0,4)))
 
-print(c)
-probar_funcion(tab_prue, c)
+p = movimientos_peon(tab_prue,(1,3), False)
+
+print(p)
+probar_funcion(tab_prue, p)

@@ -92,16 +92,19 @@ def movimientos_peon(tablero, posicion, para_chequear_rey = False):
     jugador = obtner_pieza(tablero,posicion)
     jugador = jugador[1]
     
+    
+
     #movientos posibles hacia adelante
     def para_adelante(tablero, movimiento):
         if dentro_del_tablero(movimiento) and casillero_esta_libre(tablero, movimiento):
             movimientos_posibles.append(movimiento)
     #movimientos posibles comer/diagonal
     def pos_comer_diag(tablero,posicion, movimiento):
-        if not casillero_esta_libre(tablero, movimiento) :
-            if la_pieza_es_oponente(tablero, posicion, movimiento): 
-                movimientos_posibles.append(movimiento) 
+            if not casillero_esta_libre(tablero, movimiento) :
+                if la_pieza_es_oponente(tablero, posicion, movimiento): 
+                    movimientos_posibles.append(movimiento) 
         
+    
     if jugador == BLANCO:
         #blancas hacia adelante
         mov_adelante = (posicion[0]+1,posicion[1]) 
