@@ -106,8 +106,6 @@ def movimientos_peon(tablero, posicion, para_chequear_rey = False):
         if dentro_del_tablero(posicion):
             if se_puede_comer(tablero,posicion,movimiento): 
                 movimientos_posibles.append(movimiento) 
-                    movimientos_posibles.append(movimiento) 
-                movimientos_posibles.append(movimiento) 
         
     if jugador == BLANCO:
         #blancas hacia adelante
@@ -156,9 +154,7 @@ def movimientos_caballo(tablero,posicion, para_chequear_rey = False):
                 movimientos_posibles.append(lista_movimientos[i])
             else:
                 if la_pieza_es_oponente(tablero,posicion,lista_movimientos[i]):
-                    movimientos_posibles.append(lista_movimientos[i]) 
-
-                    
+                    movimientos_posibles.append(lista_movimientos[i])                
             
     return movimientos_posibles
     
@@ -172,9 +168,7 @@ def movimientos_torre(tablero,posicion, para_chequear_rey = False):
                     
     return movimientos_posibles
 
-
 def movimientos_alfil(tablero, posicion, para_chequear_rey = False):
-
     iz_arriba = generar_posiciones_posibles(tablero,posicion,(-1,-1))
     der_arriba = generar_posiciones_posibles(tablero,posicion,(-1,+1))
     iz_abajo = generar_posiciones_posibles(tablero,posicion,(+1,-1))
