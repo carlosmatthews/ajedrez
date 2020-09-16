@@ -5,7 +5,7 @@ tablero_inicio = crear_tablero()
 
 print_tablero(tablero_inicio)
 numero_de_jugada = 0
-tablero = {}
+tablero = tablero_inicio.copy()
 jugador = None
 
 while True:
@@ -19,8 +19,6 @@ while True:
     posicion2 = int(input("Posicion de destino de la pieza(fila/columna): "))
     posicion1 = (posicion1 // 10),(posicion1 % 10 )
     posicion2 = (posicion2 // 10),(posicion2 % 10 )
-    if numero_de_jugada == 0 :
-        tablero = tablero_inicio
 
     if chequear_movimiento(tablero,posicion1,posicion2,jugador):
         tablero = mover(tablero,posicion1,posicion2)
