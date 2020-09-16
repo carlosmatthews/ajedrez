@@ -174,7 +174,7 @@ def movimientos_alfil(tablero, posicion, para_chequear_rey = False):
     iz_abajo = generar_posiciones_posibles(tablero,posicion,(+1,-1))
     der_abajo = generar_posiciones_posibles(tablero,posicion,(+1,+1))
     movimientos_posibles = iz_arriba + iz_abajo + der_arriba + der_abajo
-    
+    #TODO: FILTAR SI HAY PIEZA DEL MISMO COLOR EN MEDIO O SE PUEDE COMER
     return movimientos_posibles
 
 
@@ -230,7 +230,6 @@ def movimientos_pieza(tablero,posicion, para_chequear_rey = False):
     return salida 
   
     
-#####FIXME: PROBLEMA NO SE PUEDE LLAMAR A MOV POS SIN EL REY PARA EL  FUNCION REY
 def rey_es_comido(tablero,posicion,movimientos_posibles):
     jugador = tablero.get(posicion)
     color_de_pieza = jugador[1] # color del rey q consulta
