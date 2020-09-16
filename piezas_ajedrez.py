@@ -96,17 +96,19 @@ def movimientos_peon(tablero, posicion, para_chequear_rey = False):
     
     
 
+
     #movientos posibles hacia adelante
     def para_adelante(tablero, movimiento):
         if dentro_del_tablero(movimiento) and casillero_esta_libre(tablero, movimiento):
             movimientos_posibles.append(movimiento)
     #movimientos posibles comer/diagonal
     def pos_comer_diag(tablero,posicion, movimiento):
-            if not casillero_esta_libre(tablero, movimiento) :
-                if la_pieza_es_oponente(tablero, posicion, movimiento): 
+        if dentro_del_tablero(posicion):
+            if se_puede_comer(tablero,posicion,movimiento): 
+                movimientos_posibles.append(movimiento) 
                     movimientos_posibles.append(movimiento) 
+                movimientos_posibles.append(movimiento) 
         
-    
     if jugador == BLANCO:
         #blancas hacia adelante
         mov_adelante = (posicion[0]+1,posicion[1]) 
@@ -114,16 +116,18 @@ def movimientos_peon(tablero, posicion, para_chequear_rey = False):
         primer_jugada = (posicion[0]+2,posicion[1])
         
     else:
-            #negras hacia adelante
+        #negras hacia adelante
         mov_adelante = (posicion[0]-1,posicion[1])  
-            #negras 1er jugada
+        #negras 1er jugada
         primer_jugada = (posicion[0]-2,posicion[1])   
         
     pos_comer_diag(tablero,posicion, (mov_adelante[0], mov_adelante[1]+1))
     pos_comer_diag(tablero,posicion, (mov_adelante[0], mov_adelante[1]-1))
+    
     if not para_chequear_rey:
         para_adelante(tablero,mov_adelante)    
-        if posicion[0] == 1:
+        if posicion[0] == 1 and jugador == BLANCO  or jugador == NEGRO and \
+        posicion[0] == 6:
             para_adelante(tablero,primer_jugada) #mov 1er jugada
             
     return movimientos_posibles

@@ -19,7 +19,7 @@ while True:
     posicion2 = int(input("Posicion de destino de la pieza(fila/columna): "))
     posicion1 = (posicion1 // 10),(posicion1 % 10 )
     posicion2 = (posicion2 // 10),(posicion2 % 10 )
-
+   
     if chequear_movimiento(tablero,posicion1,posicion2,jugador):
         tablero = mover(tablero,posicion1,posicion2)
         print_tablero(tablero)
