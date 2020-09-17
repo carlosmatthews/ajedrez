@@ -41,6 +41,7 @@ def probar_funcion(tablero ,lista_posiciones):
     tablero = tablero
 
     for tupla in lista_posiciones:
+        if casillero_esta_libre()
         tablero[tupla]= (ASTERISCO, BLANCO)
 
     print_tablero(tablero)
