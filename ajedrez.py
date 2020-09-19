@@ -20,7 +20,7 @@ def crear_tablero():
     tablero = {}
     tablero[(0,0)] = (TORRE,    BLANCO)
     tablero[(0,1)] = (CABALLO,  BLANCO)
-    tablero[(0,2)] = (ALFIL,    BLANCO) 
+    tablero[(0,2)] = (ALFIL,    BLANCO)
     tablero[(0,3)] = (REINA,    BLANCO)
     tablero[(0,4)] = (REY,      BLANCO)
     tablero[(0,5)] = (ALFIL,    BLANCO)
@@ -30,7 +30,7 @@ def crear_tablero():
         tablero[1,i] = (PEON, BLANCO)
     tablero[(7,0)] = (TORRE,    NEGRO)
     tablero[(7,1)] = (CABALLO,  NEGRO)
-    tablero[(7,2)] = (ALFIL,    NEGRO) 
+    tablero[(7,2)] = (ALFIL,    NEGRO)
     tablero[(7,3)] = (REINA,    NEGRO)
     tablero[(7,4)] = (REY,      NEGRO)
     tablero[(7,5)] = (ALFIL,    NEGRO)
@@ -38,53 +38,52 @@ def crear_tablero():
     tablero[(7,7)] = (TORRE,    NEGRO)
     for i in range(8):
         tablero[6,i] = (PEON, NEGRO)
-    return tablero    
+    return tablero
 
 def representacion_piezas(nombre_pieza):
    # https://qwerty.dev/chess-symbols-to-copy-and-paste/
     if nombre_pieza is None:
         return " "
-    
-    convercion = {    
-        (TORRE,    BLANCO):"♖",
-        (CABALLO,  BLANCO):"♘",
-        (ALFIL,    BLANCO):"♗",
-        (REINA,    BLANCO):"♕",
-        (REY,      BLANCO):"♔",
-        (PEON,     BLANCO):"♙",
-        (TORRE,    NEGRO):"♜",
-        (CABALLO,  NEGRO):"♞",
-        (ALFIL,    NEGRO):"♝",
-        (REINA,    NEGRO):"♛",
-        (REY,      NEGRO):"♚",
-        (PEON,     NEGRO):"♟",
-        (ASTERISCO, BLANCO):"*",    
-        (ASTERISCO, NEGRO): "*" 
+
+    convercion = {
+        (TORRE,    BLANCO):"♜",
+        (CABALLO,  BLANCO):"♞",
+        (ALFIL,    BLANCO):"♝",
+        (REINA,    BLANCO):"♛",
+        (REY,      BLANCO):"♚",
+        (PEON,     BLANCO):"♟",
+        (TORRE,    NEGRO):"♖",
+        (CABALLO,  NEGRO):"♘",
+        (ALFIL,    NEGRO):"♗",
+        (REINA,    NEGRO):"♕",
+        (REY,      NEGRO):"♔",
+        (PEON,     NEGRO):"♙",
+        (ASTERISCO, BLANCO):"*",
+        (ASTERISCO, NEGRO): "*"
     }
     return convercion[nombre_pieza]
 
 
-def chequear_movimiento_1(tablero,posicion1,jugador): 
+def chequear_movimiento_1(tablero,posicion1,jugador):
     #revisa que alla un pieza en casillero a mover
     if posicion1 not in tablero:
         print("no hay pieza en el casillero")
-        return False 
+        return False
 
     pieza_ataque = tablero.get(posicion1)
-    print(pieza_ataque)
     color_ataque = pieza_ataque[1]
     #revisa si eljijio pieza de acuerdo al color del turno
     if jugador != color_ataque:
-        print("elija un pieza del color",jugador)         
-        return False   
+        print("elija un pieza del color",jugador)
+        return False
     else:
-        #revisa los movimietos pósibles segun la posicion elejida  
+        #revisa los movimietos pósibles segun la posicion elejida
         movimientos_posibles = movimientos_pieza(tablero, posicion1)
         print_tablero(tablero,movimientos_posibles)
         return True
 
 def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
-    
+
     pieza_ataque = tablero.get(posicion1)
     color_ataque = pieza_ataque[1]
     #revisa si hay pieza en casillero destino y si es del oponente
@@ -94,7 +93,7 @@ def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
         if color_ataque == color_destino:
             print("no puede comer su propia pieza")
             return False
-          
+
     if posicion2 in movimientos_pieza(tablero, posicion1):
         return True
     else:
@@ -110,21 +109,21 @@ def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
 def mover(tablero, posicion1, posicion2):
     pieza = tablero.get(posicion1)
     tablero[posicion2] = pieza
-    del tablero[posicion1] 
-    
-    return tablero        
-   
-    
+    del tablero[posicion1]
 
-def print_tablero(tablero,posiciones_posibles = []):  
+    return tablero
+
+
+
+def print_tablero(tablero,posiciones_posibles = []):
     print()
     print("  ", end="")
     for n in range(8):
         print(f"  {n} ",end="")  # MARTO: preguntame por esta notacion f"" para strings
-    print()        
-    for fila in range(8):
+    print()
+    for fila in range(7,-1,-1):
         print(" ", " ——-" * 8)
-        print(fila, end=" ")      
+        print(fila, end=" ")
         for col in range(8):
             posicion = (fila,col)
             pieza = tablero.get((fila,col))
@@ -132,9 +131,8 @@ def print_tablero(tablero,posiciones_posibles = []):
             if posicion in posiciones_posibles:
                 aste = "*"
             else:
-                aste = " "    
+                aste = " "
             print(f"|{aste}{simbolo} ", end="")
-        print("|")    
+        print("|")
     print(" ", " ———" * 8)
     print()
-
