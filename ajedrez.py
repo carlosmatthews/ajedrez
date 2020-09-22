@@ -63,6 +63,26 @@ def representacion_piezas(nombre_pieza):
     }
     return convercion[nombre_pieza]
 
+def convercion_para_frontend(posicion_front):
+    dic_front = {
+        "a": 0,
+        "b": 1,
+        "c": 2,
+        "d": 3,
+        "e" :4,
+        "f": 5,
+        "g": 6,
+        "h": 7
+    }
+    
+    fila = (int(posicion_front[0])) -1
+    columna =  dic_front.get(posicion_front[1])
+  
+    return fila, columna
+    
+
+
+
 movimientos_posibles = []
 def chequear_movimiento_1(tablero,posicion1,jugador):
     #revisa que alla un pieza en casillero a mover
