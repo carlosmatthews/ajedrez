@@ -63,7 +63,7 @@ def representacion_piezas(nombre_pieza):
     }
     return convercion[nombre_pieza]
 
-
+movimientos_posibles = []
 def chequear_movimiento_1(tablero,posicion1,jugador):
     #revisa que alla un pieza en casillero a mover
     if posicion1 not in tablero:
@@ -77,13 +77,18 @@ def chequear_movimiento_1(tablero,posicion1,jugador):
         print("elija un pieza del color",jugador)
         return False
     else:
+        global movimientos_posibles
         #revisa los movimietos pósibles segun la posicion elejida
         movimientos_posibles = movimientos_pieza(tablero, posicion1)
-        print_tablero(tablero,movimientos_posibles)
-        return True
+        if len(movimientos_posibles) > 0 :
+            print_tablero(tablero,movimientos_posibles)
+            return True
+        else:
+            print("la pieza no tiene movimientos posibles")
+            return False    
 
 def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
-
+    
     pieza_ataque = tablero.get(posicion1)
     color_ataque = pieza_ataque[1]
     #revisa si hay pieza en casillero destino y si es del oponente
@@ -94,7 +99,7 @@ def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
             print("no puede comer su propia pieza")
             return False
 
-    if posicion2 in movimientos_pieza(tablero, posicion1):
+    if posicion2 in movimientos_posibles:   #movimientos_pieza(tablero, posicion1):
         return True
     else:
         print("posicion invalida para esa pieza")
