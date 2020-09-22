@@ -121,14 +121,15 @@ def mover(tablero, posicion1, posicion2):
 
 
 def print_tablero(tablero,posiciones_posibles = []):
+    letras ="abcdefjgh" #letras para el print de las filas
     print()
     print("  ", end="")
     for n in range(8):
-        print(f"  {n} ",end="")  # MARTO: preguntame por esta notacion f"" para strings
+        print(f"  {letras[n]} ",end="")  # MARTO: preguntame por esta notacion f"" para strings
     print()
     for fila in range(7,-1,-1):
         print(" ", " ——-" * 8)
-        print(fila, end=" ")
+        print(fila +1 , end=" ")
         for col in range(8):
             posicion = (fila,col)
             pieza = tablero.get((fila,col))
@@ -141,3 +142,10 @@ def print_tablero(tablero,posiciones_posibles = []):
         print("|")
     print(" ", " ———" * 8)
     print()
+
+
+
+
+
+print_tablero(crear_tablero())
+

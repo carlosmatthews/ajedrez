@@ -69,7 +69,8 @@ def se_puede_comer(tablero, posicion, posicion2):
     if not casillero_esta_libre(tablero, posicion2):
         salida = la_pieza_es_oponente(tablero, posicion, posicion2) and not destino_es_rey(tablero, posicion2)
         return salida
-    
+    else:
+        False
     
 
 def generar_posiciones_posibles(tablero, posicion, direccion):
