@@ -15,16 +15,23 @@ while True:
         jugador = NEGRO
 
     print("turno de jugador",jugador)
-    posicion1 = int(input("Posicion de la pieza a mover(fila/columna): "))
-    posicion1 = (posicion1 // 10),(posicion1 % 10 )
+    posicion1 = input("Posicion de la pieza a mover(fila/columna): ")
+    posicion1 = convercion_para_frontend(posicion1)
     check_1 = chequear_movimiento_1(tablero,posicion1,jugador)
     if not check_1:
         continue
 
-    posicion2 = int(input("Posicion de destino de la pieza(fila/columna): "))
-    posicion2 = (posicion2 // 10),(posicion2 % 10 )
-   
+    posicion2 = input("Posicion de destino de la pieza(fila/columna): ")
+    posicion2 = convercion_para_frontend(posicion2)
     if chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
         tablero = mover(tablero,posicion1,posicion2)
         print_tablero(tablero)
         numero_de_jugada += 1
+
+
+
+
+
+
+
+
