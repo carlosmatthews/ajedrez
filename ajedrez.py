@@ -128,18 +128,6 @@ def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
     return True
 
 
-
-
-
-def mover(tablero, posicion1, posicion2):
-    pieza = tablero.get(posicion1)
-    tablero[posicion2] = pieza
-    del tablero[posicion1]
-
-    return tablero
-
-
-
 def print_tablero(tablero,posiciones_posibles = []):
     letras ="abcdefgh" #letras para el print de las filas
     print()
