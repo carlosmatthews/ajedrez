@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 from ajedrez import*
+from piezas_ajedrez import mover
+
 
 tablero_inicio = crear_tablero()
 
@@ -24,7 +26,7 @@ while True:
     posicion2 = input("Posicion de destino de la pieza(fila/columna): ")
     posicion2 = convercion_para_frontend(posicion2)
     if chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
-        tablero = mover(tablero,posicion1,posicion2)
+        mover(tablero,posicion1,posicion2)
         print_tablero(tablero)
         numero_de_jugada += 1
 
