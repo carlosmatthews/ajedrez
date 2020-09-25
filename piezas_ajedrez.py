@@ -212,9 +212,10 @@ def movimientos_rey(tablero, posicion, para_chequear_rey=False):
 
 
 #esta funcion elije la funcion para cada pieza segun la posicion 
-def movimientos_pieza(tablero,posicion, para_chequear_rey = False):
+def movimientos_pieza(tablero,posicion, para_chequear_rey = False, filtrar_rey_en_jaque = True):
     pieza = tablero.get(posicion)
-    pieza = pieza[0]
+    tipo_de_pieza = pieza[0]
+    color_jugador = pieza[1]
 
     dicc_fun_movimientos ={
         PEON : movimientos_peon,
@@ -225,8 +226,8 @@ def movimientos_pieza(tablero,posicion, para_chequear_rey = False):
         REY : movimientos_rey
     }
 
-    funcion = dicc_fun_movimientos.get(pieza)
-    salida = funcion(tablero, posicion, para_chequear_rey = para_chequear_rey)
+    funcion_pieza = dicc_fun_movimientos.get(tipo_de_pieza)
+    movimientos = funcion_pieza(tablero, posicion, para_chequear_rey = para_chequear_rey)
     
     return salida 
   
