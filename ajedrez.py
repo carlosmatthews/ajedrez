@@ -141,7 +141,7 @@ def mover(tablero, posicion1, posicion2):
 
 
 def print_tablero(tablero,posiciones_posibles = []):
-    letras ="abcdefjgh" #letras para el print de las filas
+    letras ="abcdefgh" #letras para el print de las filas
     print()
     print("  ", end="")
     for n in range(8):
@@ -164,8 +164,28 @@ def print_tablero(tablero,posiciones_posibles = []):
     print()
 
 
+def rey_esta_amenazado(tablero,posicion):
+    pass
 
 
-
-print_tablero(crear_tablero())
-
+def jaque_mate(tablero,posicion):
+    
+    if not rey_esta_amenazado(tablero, posicion): 
+        return False
+      
+    #3 para todos los movimientos posibles en todas las piezas el rey queda siempre amenazado.
+    # para las posiciones de mis piezas, generar un tablero_alternativo
+    # que con cada posicion posible de todas mis piezas, mande a ver
+    # si el rey esta en jaque o no.
+    # 
+    # piezas = piezas color del rey
+    # for pieza in piezas: 
+    #   movimientos = movimientos_pieza
+    #   if len(movimientos) > 0 :
+    #       return False       
+    #
+    #  return True
+    #    
+    # #TODO: caso de ahogado.    
+    
+    
