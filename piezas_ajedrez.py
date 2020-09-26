@@ -1,3 +1,4 @@
+
 # tipos de piezas:
 REY = "R"
 REINA = "RA"
@@ -34,6 +35,7 @@ def crear_tablero():
     for i in range(8):
         tablero[6,i] = (PEON, NEGRO)
     return tablero
+
 
 
 def obtner_pieza(tablero, posicion):
@@ -93,11 +95,8 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
 def movimientos_peon(tablero, posicion, para_chequear_rey = False): 
     movimientos_posibles = []
     jugador = obtner_pieza(tablero,posicion)
-    jugador = jugador[1]
-    
-    
-
-
+    jugador = jugador[1] 
+ 
     #movientos posibles hacia adelante
     def para_adelante(tablero, movimiento):
         if dentro_del_tablero(movimiento) and casillero_esta_libre(tablero, movimiento):
@@ -229,11 +228,21 @@ def movimientos_pieza(tablero,posicion, para_chequear_rey = False, filtrar_rey_e
     funcion_pieza = dicc_fun_movimientos.get(tipo_de_pieza)
     movimientos = funcion_pieza(tablero, posicion, para_chequear_rey = para_chequear_rey)
     
-    return salida 
+
+    if filtrar_rey_en_jaque :
+        for movimiento in movimientos:
+            tablero_con_movimientos = tablero.copy()
+            mover (tablero_con_movimientos, posicion,movimiento) 
+            posicion_rey = posicion_del_rey(tablero_con_movimientos,color_jugador)
+            if rey_esta_en_jaque(tablero_con_movimientos,posicion_rey):
+                movimientos.remove(movimiento)
+    
+    return movimientos
   
     
 def rey_es_comido(tablero,posicion,movimientos_posibles):
     jugador = tablero.get(posicion)
+    print(jugador)
     color_de_pieza = jugador[1] # color del rey q consulta
     
     tablero_sin_rey = tablero.copy()
@@ -244,7 +253,6 @@ def rey_es_comido(tablero,posicion,movimientos_posibles):
     for pos,pieza in tablero.items():
         if pieza[1] != color_de_pieza :
             casilleros_no_posibles += movimientos_pieza(tablero_sin_rey, pos, para_chequear_rey=True) 
-            # print("p",pos, "pos", movimientos_pieza(tablero_sin_rey, pos))
 
     for e in movimientos_posibles:
         if e in casilleros_no_posibles:
@@ -253,3 +261,36 @@ def rey_es_comido(tablero,posicion,movimientos_posibles):
    
                                 
     return movimientos_posibles       
+
+
+    #ver esta funcion
+
+def rey_esta_en_jaque(tablero,posicion_rey):
+    
+    for posicion, pieza in tablero.items():
+            if la_pieza_es_oponente(tablero,posicion,posicion_rey):
+                movimientos_de_pieza = movimientos_pieza(tablero,posicion,para_chequear_rey = True,filtrar_rey_en_jaque = False)
+                if posicion_rey in movimientos_de_pieza:
+                    return True
+    return False
+        
+
+
+def posicion_del_rey(tablero, jugador):
+    for posicion,pieza in tablero.items():
+        if pieza == (REY,jugador):
+            return posicion
+        
+
+def mover(tablero, posicion1, posicion2):
+    pieza = tablero.get(posicion1)
+    tablero[posicion2] = pieza
+    del tablero[posicion1]   
+
+
+def piezas_de_un_color(tablero,color_jugador):
+    lista_piezas= []
+    for posicion, pieza in tablero.items:
+        if pieza[1] == color_jugador:
+            lista_piezas.insert((posicion,pieza))
+    return lista_piezas

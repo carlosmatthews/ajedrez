@@ -1,3 +1,4 @@
+from main import*
 from ajedrez import*
 from piezas_ajedrez import*
 
@@ -41,8 +42,8 @@ def probar_funcion(tablero ,lista_posiciones):
     tablero = tablero
 
     for tupla in lista_posiciones:
-        if casillero_esta_libre()
-        tablero[tupla]= (ASTERISCO, BLANCO)
+        if casillero_esta_libre(tablero,tupla):
+            tablero[tupla]= (ASTERISCO, BLANCO)
 
     print_tablero(tablero)
 
@@ -65,7 +66,3 @@ probar_funcion(tab_prue,[2,1])
 
 #print(tab_prue.get((0,4)))
 
-p = movimientos_peon(tab_prue,(1,3), False)
-
-print(p)
-probar_funcion(tab_prue, p)

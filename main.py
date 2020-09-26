@@ -8,9 +8,13 @@ tablero_inicio = crear_tablero()
 print_tablero(tablero_inicio)
 numero_de_jugada = 0
 tablero = tablero_inicio.copy()
-jugador = None
+jugador = BLANCO
 
 while True:
+    if jaque_mate(tablero,jugador):
+        print("el", jugador, "esta esta en JAQUE MATE, gano el oponente")
+
+    
     if numero_de_jugada % 2 == 0 :
         jugador = BLANCO
     else:
@@ -29,8 +33,7 @@ while True:
         mover(tablero,posicion1,posicion2)
         print_tablero(tablero)
         numero_de_jugada += 1
-
-
+    
 
 
 

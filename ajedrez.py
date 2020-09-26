@@ -1,4 +1,4 @@
-from piezas_ajedrez import movimientos_pieza
+from piezas_ajedrez import movimientos_pieza, posicion_del_rey, rey_es_comido, rey_esta_en_jaque
 
 # tipos de piezas:
 REY = "R"
@@ -72,12 +72,21 @@ def convercion_para_frontend(posicion_front):
         "e" :4,
         "f": 5,
         "g": 6,
-        "h": 7
+        "h": 7,
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 5,
+        "7": 6,
+        "8": 7
     }
     
-    fila = (int(posicion_front[0])) -1
+    fila = dic_front.get(posicion_front[0])
     columna =  dic_front.get(posicion_front[1])
-  
+    
+    
     return fila, columna
     
 
@@ -152,20 +161,26 @@ def print_tablero(tablero,posiciones_posibles = []):
     print()
 
 
-def rey_esta_amenazado(tablero,posicion):
-    pass
+
+  
 
 
-def jaque_mate(tablero,posicion):
-    
-    if not rey_esta_amenazado(tablero, posicion): 
-        return False
-      
+
+def jaque_mate(tablero,color_jugador):
+    posicion_rey = posicion_del_rey(tablero,color_jugador)
+    if rey_esta_en_jaque(tablero,posicion_rey):
+        mov_del_rey = movimientos_pieza(tablero,posicion_rey,True,True)
+        print(mov_del_rey)
+        if len(mov_del_rey) < 1:
+           return True
+    return False        
+
+
     #3 para todos los movimientos posibles en todas las piezas el rey queda siempre amenazado.
     # para las posiciones de mis piezas, generar un tablero_alternativo
     # que con cada posicion posible de todas mis piezas, mande a ver
     # si el rey esta en jaque o no.
-    # 
+     
     # piezas = piezas color del rey
     # for pieza in piezas: 
     #   movimientos = movimientos_pieza
