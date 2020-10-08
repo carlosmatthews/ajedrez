@@ -174,7 +174,7 @@ def movimientos_alfil(tablero, posicion, para_chequear_rey = False):
     iz_abajo = generar_posiciones_posibles(tablero,posicion,(+1,-1))
     der_abajo = generar_posiciones_posibles(tablero,posicion,(+1,+1))
     movimientos_posibles = iz_arriba + iz_abajo + der_arriba + der_abajo
-    #TODO: FILTAR SI HAY PIEZA DEL MISMO COLOR EN MEDIO O SE PUEDE COMER
+    
     return movimientos_posibles
 
 
@@ -183,8 +183,8 @@ def movimientos_alfil(tablero, posicion, para_chequear_rey = False):
 def movimientos_reina(tablero, posicion, para_chequear_rey = False): 
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
-    for e in adelantar:        
-            linea_de_posiciones = generar_posiciones_posibles(tablero,posicion,e)
+    for movimiento in adelantar:        
+            linea_de_posiciones = generar_posiciones_posibles(tablero,posicion,movimiento)
             movimientos_posibles = movimientos_posibles + linea_de_posiciones
            
     
@@ -196,15 +196,14 @@ def movimientos_rey(tablero, posicion, para_chequear_rey=False):
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
 
-    for e in adelantar:
-        posicion2 = (posicion[0] + e[0], posicion[1] + e[1])
+    for movimiento in adelantar:
+        posicion2 = (posicion[0] + movimiento[0], posicion[1] + movimiento[1])
         if not dentro_del_tablero(posicion2):
             continue
         if casillero_esta_libre(tablero, posicion2) or se_puede_comer(tablero, posicion, posicion2):
             movimientos_posibles.append(posicion2)
     if not para_chequear_rey:
         movimientos_posibles = rey_es_comido(tablero, posicion, movimientos_posibles)
-    
     return movimientos_posibles
 
 
@@ -227,8 +226,8 @@ def movimientos_pieza(tablero,posicion, para_chequear_rey = False, filtrar_rey_e
 
     funcion_pieza = dicc_fun_movimientos.get(tipo_de_pieza)
     movimientos = funcion_pieza(tablero, posicion, para_chequear_rey = para_chequear_rey)
+    #FIXME: ANALIZAR ESTO....
     
-
     if filtrar_rey_en_jaque :
         for movimiento in movimientos:
             tablero_con_movimientos = tablero.copy()
@@ -236,15 +235,12 @@ def movimientos_pieza(tablero,posicion, para_chequear_rey = False, filtrar_rey_e
             posicion_rey = posicion_del_rey(tablero_con_movimientos,color_jugador)
             if rey_esta_en_jaque(tablero_con_movimientos,posicion_rey):
                 movimientos.remove(movimiento)
-    
     return movimientos
   
     
 def rey_es_comido(tablero,posicion,movimientos_posibles):
     jugador = tablero.get(posicion)
-    print(jugador)
     color_de_pieza = jugador[1] # color del rey q consulta
-    
     tablero_sin_rey = tablero.copy()
     del tablero_sin_rey[posicion]
  
@@ -254,9 +250,9 @@ def rey_es_comido(tablero,posicion,movimientos_posibles):
         if pieza[1] != color_de_pieza :
             casilleros_no_posibles += movimientos_pieza(tablero_sin_rey, pos, para_chequear_rey=True) 
 
-    for e in movimientos_posibles:
-        if e in casilleros_no_posibles:
-            poscion_a_borrar = movimientos_posibles.index(e)
+    for movimiento in movimientos_posibles:
+        if movimiento in casilleros_no_posibles:
+            poscion_a_borrar = movimientos_posibles.index(movimiento)
             del movimientos_posibles[poscion_a_borrar]
    
                                 
@@ -268,10 +264,10 @@ def rey_es_comido(tablero,posicion,movimientos_posibles):
 def rey_esta_en_jaque(tablero,posicion_rey):
     
     for posicion, pieza in tablero.items():
-            if la_pieza_es_oponente(tablero,posicion,posicion_rey):
-                movimientos_de_pieza = movimientos_pieza(tablero,posicion,para_chequear_rey = True,filtrar_rey_en_jaque = False)
-                if posicion_rey in movimientos_de_pieza:
-                    return True
+        if la_pieza_es_oponente(tablero,posicion,posicion_rey):
+            movimientos_de_pieza = movimientos_pieza(tablero,posicion,para_chequear_rey = True,filtrar_rey_en_jaque = False)
+            if posicion_rey in movimientos_de_pieza:
+                return True
     return False
         
 

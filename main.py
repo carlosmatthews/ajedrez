@@ -4,7 +4,6 @@ from piezas_ajedrez import mover
 
 
 tablero_inicio = crear_tablero()
-
 print_tablero(tablero_inicio)
 numero_de_jugada = 0
 tablero = tablero_inicio.copy()
@@ -33,6 +32,8 @@ while True:
         mover(tablero,posicion1,posicion2)
         print_tablero(tablero)
         numero_de_jugada += 1
+
+        
     
 
 

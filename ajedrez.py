@@ -155,7 +155,6 @@ def jaque_mate(tablero,color_jugador):
     posicion_rey = posicion_del_rey(tablero,color_jugador)
     if rey_esta_en_jaque(tablero,posicion_rey):
         mov_del_rey = movimientos_pieza(tablero,posicion_rey,True,True)
-        print(mov_del_rey)
         if len(mov_del_rey) < 1:
            return True
     return False        
