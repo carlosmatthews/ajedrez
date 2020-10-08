@@ -64,29 +64,14 @@ def representacion_piezas(nombre_pieza):
     return convercion[nombre_pieza]
 
 def convercion_para_frontend(posicion_front):
-    dic_front = {
-        "a": 0,
-        "b": 1,
-        "c": 2,
-        "d": 3,
-        "e" :4,
-        "f": 5,
-        "g": 6,
-        "h": 7,
-        "1": 0,
-        "2": 1,
-        "3": 2,
-        "4": 3,
-        "5": 4,
-        "6": 5,
-        "7": 6,
-        "8": 7
-    }
+    fila = ord(posicion_front[0]) -49
+    if fila > 7 or fila < 0: 
+        return print("posicion erronea")     
     
-    fila = dic_front.get(posicion_front[0])
-    columna =  dic_front.get(posicion_front[1])
-    
-    
+    columna = ord(posicion_front[1]) - 97 
+    if columna > 7 or fila < 0: 
+        return print("posicion erronea") 
+        
     return fila, columna
     
 
