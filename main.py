@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from ajedrez import*
+from ajedrez import *
 from piezas_ajedrez import mover
 
 
