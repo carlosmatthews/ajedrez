@@ -20,13 +20,13 @@ while True:
         jugador = NEGRO
 
     print("turno de jugador",jugador)
-    posicion1 = input("Posicion de la pieza a mover(fila/columna): ")
+    posicion1 = input("Posicion de la pieza a mover(columna/fila): ")
     posicion1 = convercion_para_frontend(posicion1)
     check_1 = chequear_movimiento_1(tablero,posicion1,jugador)
     if not check_1:
         continue
 
-    posicion2 = input("Posicion de destino de la pieza(fila/columna): ")
+    posicion2 = input("Posicion de destino de la pieza(columna/fila/): ")
     posicion2 = convercion_para_frontend(posicion2)
     if chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
         mover(tablero,posicion1,posicion2)

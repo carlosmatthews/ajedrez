@@ -64,11 +64,11 @@ def representacion_piezas(nombre_pieza):
     return convercion[nombre_pieza]
 
 def convercion_para_frontend(posicion_front):
-    fila = ord(posicion_front[0]) -49
+    fila = ord(posicion_front[1]) -49
     if fila > 7 or fila < 0: 
         return print("posicion erronea")     
     
-    columna = ord(posicion_front[1]) - 97 
+    columna = ord(posicion_front[0]) - 97 
     if columna > 7 or fila < 0: 
         return print("posicion erronea") 
         
