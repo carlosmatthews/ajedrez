@@ -237,26 +237,32 @@ def movimientos_pieza(tablero,posicion, para_chequear_rey = False, filtrar_rey_e
                 movimientos.remove(movimiento)
     return movimientos
   
-    
+#TODO: para chequear la poscion mejor sin rey es con el rey en esa posicion y si es comido, popr que si 
+# como una pieza pero me pone el rey en jaque seria invalida y pone como valida    
+#TODO: funcion lamda segundo FOR
 def rey_es_comido(tablero,posicion,movimientos_posibles):
     jugador = tablero.get(posicion)
     color_de_pieza = jugador[1] # color del rey q consulta
     tablero_sin_rey = tablero.copy()
     del tablero_sin_rey[posicion]
- 
+  
     casilleros_no_posibles = []
     
     for pos,pieza in tablero.items():
         if pieza[1] != color_de_pieza :
-            casilleros_no_posibles += movimientos_pieza(tablero_sin_rey, pos, para_chequear_rey=True) 
-
+            casilleros_no_posibles += movimientos_pieza(tablero_sin_rey, pos, para_chequear_rey=True,filtrar_rey_en_jaque = False) 
+            print("#",pieza,pos,"###",movimientos_pieza(tablero_sin_rey, pos, para_chequear_rey=True,filtrar_rey_en_jaque = False))
+    print("no_posibles",casilleros_no_posibles)        
+    print("posibles",movimientos_posibles)
+    movimientos_posibles_filtrado = []
     for movimiento in movimientos_posibles:
-        if movimiento in casilleros_no_posibles:
-            poscion_a_borrar = movimientos_posibles.index(movimiento)
-            del movimientos_posibles[poscion_a_borrar]
+        if movimiento not in casilleros_no_posibles:
+            print("movimiento",movimiento)
+            movimientos_posibles_filtrado.append(movimiento)
    
-                                
-    return movimientos_posibles       
+   
+    print("posibles_filtrados",movimientos_posibles_filtrado)                         
+    return movimientos_posibles_filtrado       
 
 
     #ver esta funcion
