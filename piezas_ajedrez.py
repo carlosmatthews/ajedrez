@@ -202,8 +202,7 @@ def movimientos_rey(tablero, posicion, para_chequear_rey=False):
             continue
         if casillero_esta_libre(tablero, posicion2) or se_puede_comer(tablero, posicion, posicion2):
             movimientos_posibles.append(posicion2)
-    if not para_chequear_rey:
-        movimientos_posibles = rey_es_comido(tablero, posicion, movimientos_posibles)
+    
     return movimientos_posibles
 
 
@@ -237,35 +236,8 @@ def movimientos_pieza(tablero,posicion, para_chequear_rey = False, filtrar_rey_e
                 movimientos.remove(movimiento)
     return movimientos
   
-#TODO: para chequear la poscion mejor sin rey es con el rey en esa posicion y si es comido, popr que si 
-# como una pieza pero me pone el rey en jaque seria invalida y pone como valida    
-#TODO: funcion lamda segundo FOR
-def rey_es_comido(tablero,posicion,movimientos_posibles):
-    jugador = tablero.get(posicion)
-    color_de_pieza = jugador[1] # color del rey q consulta
-    tablero_sin_rey = tablero.copy()
-    del tablero_sin_rey[posicion]
-  
-    casilleros_no_posibles = []
-    
-    for pos,pieza in tablero.items():
-        if pieza[1] != color_de_pieza :
-            casilleros_no_posibles += movimientos_pieza(tablero_sin_rey, pos, para_chequear_rey=True,filtrar_rey_en_jaque = False) 
-            print("#",pieza,pos,"###",movimientos_pieza(tablero_sin_rey, pos, para_chequear_rey=True,filtrar_rey_en_jaque = False))
-    print("no_posibles",casilleros_no_posibles)        
-    print("posibles",movimientos_posibles)
-    movimientos_posibles_filtrado = []
-    for movimiento in movimientos_posibles:
-        if movimiento not in casilleros_no_posibles:
-            print("movimiento",movimiento)
-            movimientos_posibles_filtrado.append(movimiento)
    
-   
-    print("posibles_filtrados",movimientos_posibles_filtrado)                         
-    return movimientos_posibles_filtrado       
-
-
-    #ver esta funcion
+#TODO: ver funciones lamda segundo 
 
 def rey_esta_en_jaque(tablero,posicion_rey):
     
