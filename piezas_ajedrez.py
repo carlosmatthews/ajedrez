@@ -92,7 +92,7 @@ def generar_posiciones_posibles(tablero, posicion, direccion):
     return movimientos_posibles
 
 
-def movimientos_peon(tablero, posicion, para_chequear_rey = False): 
+def movimientos_peon(tablero, posicion, posiciones_que_comen = False): 
     movimientos_posibles = []
     jugador = obtner_pieza(tablero,posicion)
     jugador = jugador[1] 
@@ -122,7 +122,7 @@ def movimientos_peon(tablero, posicion, para_chequear_rey = False):
     pos_comer_diag(tablero,posicion, (mov_adelante[0], mov_adelante[1]+1))
     pos_comer_diag(tablero,posicion, (mov_adelante[0], mov_adelante[1]-1))
     
-    if not para_chequear_rey:
+    if not posiciones_que_comen:
         para_adelante(tablero,mov_adelante)    
         if posicion[0] == 1 and jugador == BLANCO  or jugador == NEGRO and \
         posicion[0] == 6:
@@ -132,7 +132,7 @@ def movimientos_peon(tablero, posicion, para_chequear_rey = False):
 
 
 
-def movimientos_caballo(tablero,posicion, para_chequear_rey = False): 
+def movimientos_caballo(tablero,posicion, posiciones_que_comen = False): 
     fila = posicion[0]
     columna = posicion[1]
     mov_1 = (fila -2, columna -1)
@@ -158,7 +158,7 @@ def movimientos_caballo(tablero,posicion, para_chequear_rey = False):
             
     return movimientos_posibles
     
-def movimientos_torre(tablero,posicion, para_chequear_rey = False):
+def movimientos_torre(tablero,posicion, posiciones_que_comen = False):
     izquierda = generar_posiciones_posibles(tablero,posicion,(0,-1))
     derecha = generar_posiciones_posibles(tablero,posicion,(0,+1))
     arriba = generar_posiciones_posibles(tablero,posicion,(-1,0))
@@ -168,7 +168,7 @@ def movimientos_torre(tablero,posicion, para_chequear_rey = False):
                     
     return movimientos_posibles
 
-def movimientos_alfil(tablero, posicion, para_chequear_rey = False):
+def movimientos_alfil(tablero, posicion, posiciones_que_comen = False):
     iz_arriba = generar_posiciones_posibles(tablero,posicion,(-1,-1))
     der_arriba = generar_posiciones_posibles(tablero,posicion,(-1,+1))
     iz_abajo = generar_posiciones_posibles(tablero,posicion,(+1,-1))
@@ -180,7 +180,7 @@ def movimientos_alfil(tablero, posicion, para_chequear_rey = False):
 
 
 
-def movimientos_reina(tablero, posicion, para_chequear_rey = False): 
+def movimientos_reina(tablero, posicion, posiciones_que_comen = False): 
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
     for movimiento in adelantar:        
@@ -192,7 +192,7 @@ def movimientos_reina(tablero, posicion, para_chequear_rey = False):
 
 
 
-def movimientos_rey(tablero, posicion, para_chequear_rey=False): 
+def movimientos_rey(tablero, posicion, posiciones_que_comen=False): 
     movimientos_posibles = []
     adelantar = [(0,+1),(0,-1),(+1,0),(-1,0),(-1,-1),(+1,+1),(-1,+1),(+1,-1)]
 
@@ -209,7 +209,7 @@ def movimientos_rey(tablero, posicion, para_chequear_rey=False):
 
 
 #esta funcion elije la funcion para cada pieza segun la posicion 
-def movimientos_pieza(tablero,posicion, para_chequear_rey = False, filtrar_rey_en_jaque = True):
+def movimientos_pieza(tablero,posicion, posiciones_que_comen = False, filtrar_rey_en_jaque = True):
     pieza = tablero.get(posicion)
     tipo_de_pieza = pieza[0]
     color_jugador = pieza[1]
@@ -224,26 +224,27 @@ def movimientos_pieza(tablero,posicion, para_chequear_rey = False, filtrar_rey_e
     }
 
     funcion_pieza = dicc_fun_movimientos.get(tipo_de_pieza)
-    movimientos = funcion_pieza(tablero, posicion, para_chequear_rey = para_chequear_rey)
+    movimientos = funcion_pieza(tablero, posicion, posiciones_que_comen = posiciones_que_comen)
     #FIXME: ANALIZAR ESTO....
-    
+    movimientos_filtrados = []
     if filtrar_rey_en_jaque :
         for movimiento in movimientos:
             tablero_con_movimientos = tablero.copy()
             mover (tablero_con_movimientos, posicion,movimiento) 
             posicion_rey = posicion_del_rey(tablero_con_movimientos,color_jugador)
-            if rey_esta_en_jaque(tablero_con_movimientos,posicion_rey):
-                movimientos.remove(movimiento)
-    return movimientos
+            if not rey_esta_en_jaque(tablero_con_movimientos,posicion_rey):
+                movimientos_filtrados.append(movimiento)
+        return movimientos_filtrados
+    else:
+         return movimientos   
   
    
-#TODO: ver funciones lamda segundo 
-
+#TODO: ver funciones lamda 
 def rey_esta_en_jaque(tablero,posicion_rey):
     
     for posicion, pieza in tablero.items():
         if la_pieza_es_oponente(tablero,posicion,posicion_rey):
-            movimientos_de_pieza = movimientos_pieza(tablero,posicion,para_chequear_rey = True,filtrar_rey_en_jaque = False)
+            movimientos_de_pieza = movimientos_pieza(tablero,posicion,posiciones_que_comen = True,filtrar_rey_en_jaque = False)
             if posicion_rey in movimientos_de_pieza:
                 return True
     return False
