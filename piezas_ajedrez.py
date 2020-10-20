@@ -226,17 +226,19 @@ def movimientos_pieza(tablero,posicion, posiciones_que_comen = False, filtrar_re
     funcion_pieza = dicc_fun_movimientos.get(tipo_de_pieza)
     movimientos = funcion_pieza(tablero, posicion, posiciones_que_comen = posiciones_que_comen)
     #FIXME: ANALIZAR ESTO....
-    movimientos_filtrados = []
+
     if filtrar_rey_en_jaque :
-        for movimiento in movimientos:
+        def filtrado_rey_a_salvo(movimiento):
             tablero_con_movimientos = tablero.copy()
             mover (tablero_con_movimientos, posicion,movimiento) 
             posicion_rey = posicion_del_rey(tablero_con_movimientos,color_jugador)
-            if not rey_esta_en_jaque(tablero_con_movimientos,posicion_rey):
-                movimientos_filtrados.append(movimiento)
-        return movimientos_filtrados
-    else:
+            return not rey_esta_en_jaque(tablero_con_movimientos,posicion_rey)   
+    
+        movimientos = list(filter(filtrado_rey_a_salvo,movimientos))
+         
+    return movimientos   
          return movimientos   
+    return movimientos   
   
    
 #TODO: ver funciones lamda 
