@@ -237,8 +237,6 @@ def movimientos_pieza(tablero,posicion, posiciones_que_comen = False, filtrar_re
         movimientos = list(filter(filtrado_rey_a_salvo,movimientos))
          
     return movimientos   
-         return movimientos   
-    return movimientos   
   
    
 #TODO: ver funciones lamda 
