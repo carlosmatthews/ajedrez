@@ -1,17 +1,24 @@
 #!/usr/bin/env python3
 from ajedrez import *
 from piezas_ajedrez import mover
-
+from manejo_partidas import*
 
 tablero_inicio = crear_tablero()
-print_tablero(tablero_inicio)
+
 numero_de_jugada = 0
 tablero = tablero_inicio.copy()
 jugador = BLANCO
 
+cargar_juego = elejir_partida()
+
+if cargar_juego == True:
+    partida = cargar_partida()
+    jugador, tablero = partida
+
+print_tablero(tablero)
+
 while True:
     
-
     print("turno de jugador",jugador)
     posicion1 = input("Posicion de la pieza a mover(columna/fila): ")
     posicion1 = convercion_para_frontend(posicion1)
@@ -35,10 +42,11 @@ while True:
         if jugador == BLANCO:
             jugador = NEGRO
         else:
-            jugador = BLANCO    
-        
+            jugador = BLANCO  
     
+    guardar_partida(jugador,tablero)        
 
+    
 
 
 
