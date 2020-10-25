@@ -269,3 +269,10 @@ def piezas_de_un_color(tablero,color_jugador):
         if pieza[1] == color_jugador:
             lista_piezas.insert((posicion,pieza))
     return lista_piezas
+
+
+def color_del_oponente(color_jugador):
+    if color_jugador == BLANCO:
+        return NEGRO
+    else:
+        return BLANCO
