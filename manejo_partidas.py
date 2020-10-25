@@ -1,7 +1,7 @@
 import os
 import json
 
-def elejir_partida():
+def elegir_partida():
     while True:
         inicio = int(input("ingrese 1 para continuar una partida o 0 para nueva partida: "))       
 
@@ -26,13 +26,13 @@ def guardar_partida(jugador, tablero):
     fichero.close()
 def cargar_partida():
         
-    fichero = open("partida.json")
-    line = fichero.readline()
-    fichero.close()
-    data = json.loads(line)
-    tablero_guardardo = data["partida"]
-    jugador = data["turno"]
-    
+    with open("partida.json") as fichero:
+        line = fichero.readline()
+        fichero.close()
+        data = json.loads(line)
+        tablero_guardardo = data["partida"]
+        jugador = data["turno"]
+        
     tablero = {}
     
     for clave,valor in tablero_guardardo.items():
