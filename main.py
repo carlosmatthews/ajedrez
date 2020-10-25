@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from ajedrez import *
-from piezas_ajedrez import mover
+from piezas_ajedrez import mover, color_del_oponente
 from manejo_partidas import*
 
 tablero_inicio = crear_tablero()
@@ -9,7 +9,7 @@ numero_de_jugada = 0
 tablero = tablero_inicio.copy()
 jugador = BLANCO
 
-cargar_juego = elejir_partida()
+cargar_juego = elegir_partida()
 
 if cargar_juego == True:
     partida = cargar_partida()
@@ -37,7 +37,7 @@ while True:
         print_tablero(tablero)
         numero_de_jugada += 1
         if jaque_mate(tablero,jugador):
-            print("el", jugador, "esta esta en JAQUE MATE, gano el oponente")
+            print("el", jugador, " JAQUE MATE, gano el :",str(color_del_oponente(jugador)))
             break
         if jugador == BLANCO:
             jugador = NEGRO
