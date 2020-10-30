@@ -87,19 +87,30 @@ class Partida extends Component {
       }
     }
     this.setState(nuevo_state);
+
   }
 
   render() {
     const state=this.state;
     return <>
-      <h3>Juegan {state.quien_juega === 'B' ? 'BLANCAS' : 'NEGRAS'}</h3>
-      <Tablero tablero={state.tablero}
-               mov_posibles={state.mov_posibles}
-               pos_seleccionada={state.pos_seleccionada}
-               click={this.click_casillero}/>
-      {state.pieza_seleccionada && <>
-        <h3>Pieza Seleccionada: <span className="pieza">{representacion_pieza(state.pieza_seleccionada)}</span></h3>
-        </>}
+      <table>
+        <tbody>
+          <tr id="main_column">
+            <td id="tableroTD">
+              <Tablero tablero={state.tablero}
+                mov_posibles={state.mov_posibles}
+                pos_seleccionada={state.pos_seleccionada}
+                click={this.click_casillero}/>
+            </td>
+            <td id="infoTD">
+              <h1>Juegan {state.quien_juega === 'B' ? 'BLANCAS' : 'NEGRAS'}</h1>
+              {state.pieza_seleccionada && <>
+                <h3>Pieza Seleccionada: <span className="pieza">{representacion_pieza(state.pieza_seleccionada)}</span></h3>
+              </>}  
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </>;
   }
 }
