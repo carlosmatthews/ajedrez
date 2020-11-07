@@ -1,5 +1,6 @@
 import os
 import json
+ 
 
 def elegir_partida():
     if os._exists("partida.json"):
@@ -15,25 +16,30 @@ def elegir_partida():
     else:
         pass        
 
-def guardar_partida(jugador, tablero):
-    tablero_guardar = {}
+def serializar_tablero(tablero):
+    tablero_serializado = {}
     # serializa diccionario para json, la clave deve ser string
     for (fila,columna), valor in tablero.items():
         string_clave = f"{(fila),(columna)}"
-        tablero_guardar[string_clave] = valor
-        
-    data = {"turno":jugador,"partida":tablero_guardar}
+        tablero_serializado[string_clave] = valor
+    return tablero_serializado
+
+def guardar_partida(jugador, tablero):
+    tablero_guardar = serializar_tablero(tablero)   
+    data = {"turno":jugador,"tablero":tablero_guardar}
     cadena = json.dumps(data)
     fichero = open("partida.json","w")
     fichero.write(cadena)
     fichero.close()
+
+
 def cargar_partida():
         
     with open("partida.json") as fichero:
         line = fichero.readline()
         fichero.close()
         data = json.loads(line)
-        tablero_guardardo = data["partida"]
+        tablero_guardardo = data["tablero"]
         jugador = data["turno"]
         
     tablero = {}

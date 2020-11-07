@@ -1,4 +1,4 @@
-from piezas_ajedrez import movimientos_pieza, posicion_del_rey, rey_esta_en_jaque
+from piezas_ajedrez import movimientos_pieza, posicion_del_rey, rey_esta_en_jaque, color_del_oponente
 
 # tipos de piezas:
 REY = "R"
@@ -14,7 +14,9 @@ NEGRO = "N"
 #   marcas de casillero
 ASTERISCO = "*"
 
-
+tablero = {}
+jugador = BLANCO
+partida = {"turno": jugador, "tablero":tablero}
 
 
 def crear_tablero():
@@ -153,12 +155,9 @@ def print_tablero(tablero,posiciones_posibles = []):
 
 
 def jaque_mate(tablero,color_jugador):
-    if color_jugador == BLANCO:
-        color_oponente = NEGRO
-    else:
-        color_oponente = BLANCO    
-    
+    color_oponente = color_del_oponente(color_jugador)
     posicion_rey = posicion_del_rey(tablero,color_oponente)
+    
     if rey_esta_en_jaque(tablero,posicion_rey):
         mov_del_rey = movimientos_pieza(tablero,posicion_rey,True,True)
         if len(mov_del_rey) < 1:
