@@ -5,22 +5,58 @@
 
 import json
 from flask import Flask
+from flask import request
+from manejo_partidas import serializar_tablero
+from ajedrez import*
+import piezas_ajedrez
 
 app = Flask(__name__, static_url_path="/frontend")
 
-@app.route('/')
-def index():
-    return 'Hello'
+@app.route("/inicio")
+def inicio():
+    tablero = crear_tablero()
+    tablero = serializar_tablero(tablero)
+    return json.dumps(tablero)
 
 
-@app.route('/carli')
-def carli():
-    return 'Hello carli'
 
-@app.route('/marto')
-def marto():
-    return 'Hello marto'
+#?fila=0&col=1
+@app.route("/movimientos")     
+def movimientos():
+    fila = request.args.get("fila")
+    col = request.args.get("col")
+    if chequear_movimiento_1(tablero,(fila,col),jugador) == False:
+        return json.dumps("error")
+    else:
+        return json.dumps(movimientos_posibles)
 
+        
+
+@app.route('/tablero')
+def enviar_tablero():
+    tablero = tablero
+    tablero_serializado = serializar_tablero(tablero)
+    tablero_json = json.dumps(tablero_serializado)
+
+    return tablero_json
+#parametros  #?fila=0,col=0&fila2=5,col2=4')
+@app.route("/mover")        
+def mover():
+    fila = request.args.get("fila")
+    col = request.args.get ("col")
+    fila2 = request.args.get("fila2")
+    col2 = request.args.get("col2")
+    try:
+        piezas_ajedrez.mover(tablero,(fila,col),(fila2,col2))
+        tablero_serializado = serializar_tablero(tablero)
+        return json.dumps(tablero_serializado) 
+
+    except:
+        return json.dumps("error en la ejecucion del movimiento")
+    
+    
+
+    
 @app.route('/dicc')
 def dicc():
     diccionario = {}
@@ -31,7 +67,10 @@ def dicc():
     return json.dumps(diccionario)    
     
     
-
+@app.route('/')
+def main():
+    return "hola sol"
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
+
