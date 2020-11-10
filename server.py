@@ -7,13 +7,14 @@ import json
 from flask import Flask
 from flask import request
 from manejo_partidas import serializar_tablero
-from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2, movimientos_posibles
+from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2, movimientos_posibles,jaque_mate,cambio_de_turno
 import piezas_ajedrez
 
 app = Flask(__name__, static_url_path="/frontend")
 
 tablero = partida["tablero"]
 jugador = partida["turno"]
+ganador = None
 
 dic_error = {"error": "error en la ejecucion del movimiento"}
 
@@ -55,15 +56,18 @@ def mover():
     col2 = request.args.get("col2")
 
     piezas_ajedrez.mover(tablero,(fila,col),(fila2,col2))
+    continua_juego = not jaque_mate(tablero,jugador)
+    if not continua_juego:
+        ganador = piezas_ajedrez.color_del_oponente(jugador)
+    else:
+        ganador = None    
+           
+    cambio_de_turno(jugador)
     tablero_serializado = serializar_tablero(tablero)
-    dic_tablero = {"tablero" : tablero_serializado}
-    return json.dumps(dic_tablero) 
-
+    dic_partida = {"tablero" : tablero_serializado,"turno":jugador, "continua_juego":continua_juego, "ganador": ganador}
     
-      
-    
-    
-
+    return json.dumps(dic_partida) 
+            
     
 @app.route('/dicc')
 def dicc():

@@ -19,6 +19,16 @@ jugador = BLANCO
 partida = {"turno": jugador, "tablero":tablero}
 
 
+def cambio_de_turno(jugador):
+    if jugador == BLANCO:
+            jugador = NEGRO
+    else:
+        jugador = BLANCO 
+        
+
+
+
+
 def crear_tablero():
     tablero = {}
     tablero[(0,0)] = (TORRE,    BLANCO)
