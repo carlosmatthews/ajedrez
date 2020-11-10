@@ -56,7 +56,8 @@ def mover():
 
     piezas_ajedrez.mover(tablero,(fila,col),(fila2,col2))
     tablero_serializado = serializar_tablero(tablero)
-    return json.dumps(tablero_serializado) 
+    dic_tablero = {"tablero" : tablero_serializado}
+    return json.dumps(dic_tablero) 
 
     
       
