@@ -63,7 +63,7 @@ jugador = BLANCO
 
     print("turno de jugador",jugador)
     posicion1 = input("Posicion de la pieza a mover(columna/fila): ")
-    posicion1 = convercion_para_frontend(posicion1)
+    posicion1 = convertir_de_frontend(posicion1)
     if posicion1 == None:
         continue
     check_1 = chequear_movimiento_1(tablero,posicion1,jugador)
@@ -71,7 +71,7 @@ jugador = BLANCO
         continue
 
     posicion2 = input("Posicion de destino de la pieza(columna/fila/): ")
-    posicion2 = convercion_para_frontend(posicion2)
+    posicion2 = convertir_de_frontend(posicion2)
     if posicion2 == None:
         continue
     if chequear_movimiento_2(tablero,posicion1,posicion2,jugador):

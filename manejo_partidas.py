@@ -1,6 +1,6 @@
 import os
 import json
- 
+
 
 def elegir_partida():
     if os._exists("partida.json"):
@@ -13,30 +13,15 @@ def elegir_partida():
                 return True
             else:
                 continue
-       
+    else:
+        pass        
+
 
 def serializar_tablero(tablero):
-    tablero_serializado = {}
-    # serializa diccionario para json, la clave deve ser string
-    for (fila,columna), valor in tablero.items():
-        string_clave = f"{fila},{columna}"
-        tablero_serializado[string_clave] = valor
+    tablero_serializado = []
+    for (fila,col), (pieza, color) in tablero.items():
+        tablero_serializado.append([fila, col, pieza, color])
     return tablero_serializado
-
-
-
-def deserializar_tablero(tablero_serailizado):
-    
-    tablero = {}
-    
-    for clave,valor in tablero_serailizado.items():
-        clave_tupla = int(clave[1]),int(clave[4])
-        tablero[clave_tupla] = tuple(valor)
-        
-    return tablero
-
-
-
 
 
 def guardar_partida(jugador, tablero):
@@ -49,7 +34,6 @@ def guardar_partida(jugador, tablero):
 
 
 def cargar_partida():
-        
     with open("partida.json") as fichero:
         line = fichero.readline()
         fichero.close()
@@ -57,11 +41,12 @@ def cargar_partida():
         tablero_guardardo = data["tablero"]
         jugador = data["turno"]
         
-    tablero = deserializar_tablero(tablero_guardardo)  
+    tablero = {}
+    for fila, col, pieza, color in tablero_guardardo:
+        pos = (fila,col)
+        tablero[pos] = (pieza, color)
     
     return (jugador,tablero)
-
-
 
 
 def leer_carpeta_de_guardados():
@@ -69,6 +54,3 @@ def leer_carpeta_de_guardados():
     with os.scandir("c:/Users/carlos/workspace/ajedrez") as ficheros:
         ficheros = [fichero.name for fichero in ficheros if fichero.is_file() and fichero.name.endswith('.json')]
     print(ficheros)
-
-
-

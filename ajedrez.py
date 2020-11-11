@@ -77,18 +77,22 @@ def representacion_piezas(nombre_pieza):
     }
     return convercion[nombre_pieza]
 
-def convercion_para_frontend(posicion_front):
+
+def convertir_de_frontend(posicion_front):
+    posicion_front = posicion_front.upper()
     fila = ord(posicion_front[1]) - ord("1")
     if fila > 7 or fila < 0: 
         return print("posicion erronea")     
     
-    columna = ord(posicion_front[0]) - ord("a")
+    columna = ord(posicion_front[0]) - ord("A")
     if columna > 7 or fila < 0: 
         return print("posicion erronea") 
         
     return fila, columna
-    
 
+
+def convertir_a_frontend(posicion):
+    return chr(ord('A') + posicion[1]) + chr(ord('1') + posicion[0])
 
 
 movimientos_posibles = []
@@ -113,7 +117,7 @@ def chequear_movimiento_1(tablero,posicion1,jugador):
             return True
         else:
             print("la pieza no tiene movimientos posibles")
-            return False    
+            return False
 
 def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
    
