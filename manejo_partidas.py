@@ -20,6 +20,12 @@ def serializar_tablero(tablero):
         tablero_serializado.append([fila, col, pieza, color])
     return tablero_serializado
 
+def deserializar_tablero(tablero_serializado):
+    tablero = {}
+    for e in tablero_serializado:
+        tablero[(e[0],e[1])]= (e[2],e[3])
+    return tablero    
+
 
 def guardar_partida(jugador, tablero):
     tablero_guardar = serializar_tablero(tablero)   
