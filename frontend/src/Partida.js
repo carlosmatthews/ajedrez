@@ -18,44 +18,18 @@ class Partida extends Component {
   componentDidMount() {this.cargar_tablero();}
 
   cargar_tablero() {
-    const tablero = {}; // TODO: llamar API de carli
-    tablero[[1,0]] = ['P', 'B'];
-    tablero[[1,1]] = ['P', 'B'];
-    tablero[[1,2]] = ['P', 'B'];
-    tablero[[1,3]] = ['P', 'B'];
-    tablero[[1,4]] = ['P', 'B'];
-    tablero[[1,5]] = ['P', 'B'];
-    tablero[[1,6]] = ['P', 'B'];
-    tablero[[1,7]] = ['P', 'B'];
-    tablero[[1,1]] = ['P', 'B'];
-    tablero[[0,0]] = ['T', 'B'];
-    tablero[[0,1]] = ['C', 'B'];
-    tablero[[0,2]] = ['A', 'B'];
-    tablero[[0,3]] = ['RA', 'B'];
-    tablero[[0,4]] = ['R', 'B'];
-    tablero[[0,5]] = ['A', 'B'];
-    tablero[[0,6]] = ['C', 'B'];
-    tablero[[0,7]] = ['T', 'B'];
-
-    tablero[[6,0]] = ['P', 'N'];
-    tablero[[6,1]] = ['P', 'N'];
-    tablero[[6,2]] = ['P', 'N'];
-    tablero[[6,3]] = ['P', 'N'];
-    tablero[[6,4]] = ['P', 'N'];
-    tablero[[6,5]] = ['P', 'N'];
-    tablero[[6,6]] = ['P', 'N'];
-    tablero[[6,7]] = ['P', 'N'];
-    tablero[[1,1]] = ['P', 'B'];
-    tablero[[7,0]] = ['T', 'N'];
-    tablero[[7,1]] = ['C', 'N'];
-    tablero[[7,2]] = ['A', 'N'];
-    tablero[[7,3]] = ['RA', 'N'];
-    tablero[[7,4]] = ['R', 'N'];
-    tablero[[7,5]] = ['A', 'N'];
-    tablero[[7,6]] = ['C', 'N'];
-    tablero[[7,7]] = ['T', 'N'];
-
-    this.setState({tablero: tablero});
+    fetch('/tablero')
+      .then(response => response.json())
+      .then(data => {
+        const tablero = {}
+        for (const p of data) {
+          const pos = [p[0], p[1]];
+          const pieza = [p[2], p[3]];
+          tablero[pos] = pieza;
+        }
+        console.log("Tablero cargado");
+        this.setState({tablero: tablero});
+      });
   }
 
   click_casillero(f,c) {
@@ -68,9 +42,18 @@ class Partida extends Component {
         pos_seleccionada: [f,c],
         mov_posibles: [],
       });
-      //llamar a la API refrescar mov_posibles
+      fetch(`/movimientos?fila=${f}&col=${c}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            console.error(data.error);
+            return;
+          }
+          this.setState({mov_posibles: data});
+        });
       return;
     }
+
     const nuevo_state = {
       pieza_seleccionada: null,
       pos_seleccionada: null,
