@@ -13,9 +13,6 @@ def elegir_partida():
                 return True
             else:
                 continue
-    else:
-        pass        
-
 
 def serializar_tablero(tablero):
     tablero_serializado = []
