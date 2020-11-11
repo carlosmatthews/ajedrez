@@ -23,6 +23,22 @@ def serializar_tablero(tablero):
         tablero_serializado[string_clave] = valor
     return tablero_serializado
 
+
+
+def deserializar_tablero(tablero_serailizado):
+    
+    tablero = {}
+    
+    for clave,valor in tablero_serailizado.items():
+        clave_tupla = int(clave[1]),int(clave[4])
+        tablero[clave_tupla] = tuple(valor)
+        
+    return tablero
+
+
+
+
+
 def guardar_partida(jugador, tablero):
     tablero_guardar = serializar_tablero(tablero)   
     data = {"turno":jugador,"tablero":tablero_guardar}
@@ -41,11 +57,7 @@ def cargar_partida():
         tablero_guardardo = data["tablero"]
         jugador = data["turno"]
         
-    tablero = {}
-    
-    for clave,valor in tablero_guardardo.items():
-        clave_tupla = int(clave[1]),int(clave[4])
-        tablero[clave_tupla] = tuple(valor)    
+    tablero = deserializar_tablero(tablero_guardardo)  
     
     return (jugador,tablero)
 
