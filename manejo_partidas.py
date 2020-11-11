@@ -20,7 +20,7 @@ def serializar_tablero(tablero):
     tablero_serializado = {}
     # serializa diccionario para json, la clave deve ser string
     for (fila,columna), valor in tablero.items():
-        string_clave = f"{(fila),(columna)}"
+        string_clave = f"{fila},{columna}"
         tablero_serializado[string_clave] = valor
     return tablero_serializado
 
