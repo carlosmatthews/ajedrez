@@ -18,13 +18,14 @@ tablero = {}
 jugador = BLANCO
 partida = {"turno": jugador, "tablero":tablero}
 
-
+   
+#para front
 def cambio_de_turno(jugador):
     if jugador == BLANCO:
             jugador = NEGRO
     else:
         jugador = BLANCO 
-        
+
 
 
 
