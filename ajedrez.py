@@ -116,7 +116,7 @@ def chequear_movimiento_1(tablero,posicion1,jugador):
             return True
         else:
             print("la pieza no tiene movimientos posibles")
-            return False    
+            return False
 
 def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
    
