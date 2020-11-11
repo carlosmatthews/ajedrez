@@ -56,6 +56,7 @@ def mover():
     col2 = request.args.get("col2")
 
     piezas_ajedrez.mover(tablero,(fila,col),(fila2,col2))
+    #esto va dentro de la fun mover original
     continua_juego = not jaque_mate(tablero,jugador)
     if not continua_juego:
         ganador = piezas_ajedrez.color_del_oponente(jugador)
@@ -69,15 +70,7 @@ def mover():
     return json.dumps(dic_partida) 
             
     
-@app.route('/dicc')
-def dicc():
-    diccionario = {}
-    diccionario["cero"]= 0
-    diccionario["uno"] = 1
-    diccionario["dos"] = 2
 
-    return json.dumps(diccionario)    
-    
     
 @app.route('/')
 def main():
