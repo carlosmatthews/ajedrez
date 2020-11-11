@@ -50,10 +50,10 @@ def enviar_tablero():
 #parametros  #?fila=0,col=0&fila2=5,col2=4')
 @app.route("/mover")        
 def mover():
-    fila = request.args.get("fila")
-    col = request.args.get ("col")
-    fila2 = request.args.get("fila2")
-    col2 = request.args.get("col2")
+    fila  = int(request.args.get("fila"))
+    col   = int(request.args.get ("col"))
+    fila2 = int(request.args.get("fila2"))
+    col2  = int(request.args.get("col2"))
 
     piezas_ajedrez.mover(tablero,(fila,col),(fila2,col2))
     #esto va dentro de la fun mover original
