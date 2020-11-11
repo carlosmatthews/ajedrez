@@ -32,8 +32,8 @@ def inicio():
 #/movimientos?fila=0&col=1
 @app.route("/movimientos")     
 def movimientos():
-    fila = request.args.get("fila")
-    col = request.args.get("col")
+    fila = int(request.args.get("fila"))
+    col = int(request.args.get("col"))
     if chequear_movimiento_1(tablero,(fila,col),jugador) == False:
         return json.dumps(dic_error)
     else:
@@ -46,6 +46,7 @@ def enviar_tablero():
     tablero_serializado = serializar_tablero(tablero)
     tablero_json = json.dumps(tablero_serializado)
     return tablero_json
+
 
 #parametros  #?fila=0,col=0&fila2=5,col2=4')
 @app.route("/mover")        
@@ -67,7 +68,7 @@ def mover():
     dic_partida = {"tablero" : tablero_serializado,"turno":jugador, "continua_juego":continua_juego, "ganador": ganador}
     
     return json.dumps(dic_partida) 
-            
+
     
 @app.route('/dicc')
 def dicc():
