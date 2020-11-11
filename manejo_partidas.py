@@ -44,11 +44,7 @@ def cargar_partida():
         tablero_guardardo = data["tablero"]
         jugador = data["turno"]
         
-    tablero = {}
-    for fila, col, pieza, color in tablero_guardardo:
-        pos = (fila,col)
-        tablero[pos] = (pieza, color)
-    
+    tablero = deserializar_tablero(tablero_guardardo)
     return (jugador,tablero)
 
 
