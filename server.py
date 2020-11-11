@@ -34,7 +34,7 @@ def inicio():
 def movimientos():
     fila = int(request.args.get("fila"))
     col = int(request.args.get("col"))
-    if chequear_movimiento_1(tablero,(fila,col),jugador) == False:
+    if not chequear_movimiento_1(tablero,(fila,col),jugador):
         return json.dumps(dic_error)
     else:
         return json.dumps(movimientos_posibles)
