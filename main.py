@@ -4,7 +4,6 @@ from piezas_ajedrez import mover, color_del_oponente
 from manejo_partidas import*
 
 tablero_inicio = crear_tablero()
-
 tablero = tablero_inicio.copy()
 jugador = BLANCO
 
@@ -23,8 +22,8 @@ while True:
     posicion1 = convertir_de_frontend(posicion1)
     if posicion1 == None:
         continue
-    check_1 = chequear_movimiento_1(tablero,posicion1,jugador)
-    if not check_1:
+    
+    if not chequear_movimiento_1(tablero,posicion1,jugador):
         continue
 
     posicion2 = input("Posicion de destino de la pieza(columna/fila/): ")
