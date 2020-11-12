@@ -5,7 +5,6 @@ from manejo_partidas import*
 
 tablero_inicio = crear_tablero()
 
-numero_de_jugada = 0
 tablero = tablero_inicio.copy()
 jugador = BLANCO
 
@@ -35,7 +34,6 @@ while True:
     if chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
         mover(tablero,posicion1,posicion2)
         print_tablero(tablero)
-        numero_de_jugada += 1
         if jaque_mate(tablero,jugador):
             print("el", jugador, " JAQUE MATE, gano el :",str(color_del_oponente(jugador)))
             break
