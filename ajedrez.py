@@ -95,32 +95,28 @@ def convertir_a_frontend(posicion):
     return chr(ord('A') + posicion[1]) + chr(ord('1') + posicion[0])
 
 
-movimientos_posibles = []
 def chequear_movimiento_1(tablero,posicion1,jugador):
     #revisa que alla un pieza en casillero a mover
     if posicion1 not in tablero:
-        print("no hay pieza en el casillero")
-        return False
+        mensaje = "no hay pieza en el casillero"
+        return False, mensaje, None
 
-    pieza_ataque = tablero.get(posicion1)
-    color_ataque = pieza_ataque[1]
+    pieza_ataque, color_ataque = tablero.get(posicion1)
     #revisa si eljijio pieza de acuerdo al color del turno
     if jugador != color_ataque:
-        print("elija un pieza del color",jugador)
-        return False
+        mensaje = "elija un pieza del color",jugador
+        return False, mensaje, None
     else:
-        global movimientos_posibles
         #revisa los movimietos pósibles segun la posicion elejida
         movimientos_posibles = movimientos_pieza(tablero, posicion1)
         if len(movimientos_posibles) > 0 :
             print_tablero(tablero,movimientos_posibles)
-            return True
+            return True, None, movimientos_posibles
         else:
-            print("la pieza no tiene movimientos posibles")
-            return False
+            mensaje = "la pieza no tiene movimientos posibles"
+            return False, mensaje, None
 
-def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
-   
+def chequear_movimiento_2(tablero,posicion1,posicion2,jugador, movimientos_posibles):
     pieza_ataque = tablero.get(posicion1)
     color_ataque = pieza_ataque[1]
     #revisa si hay pieza en casillero destino y si es del oponente
