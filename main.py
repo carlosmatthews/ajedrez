@@ -23,14 +23,17 @@ while True:
     if posicion1 == None:
         continue
     
-    if not chequear_movimiento_1(tablero,posicion1,jugador):
+    check_1 =  chequear_movimiento_1(tablero,posicion1,jugador)
+    if not check_1[0]:     
+        print(check_1[1]) # mensaje de error
         continue
 
     posicion2 = input("Posicion de destino de la pieza(columna/fila/): ")
     posicion2 = convertir_de_frontend(posicion2)
     if posicion2 == None:
         continue
-    if chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
+    check_2 = chequear_movimiento_2(tablero,posicion1,posicion2,jugador, check_1)
+    if check_2[0]:
         mover(tablero,posicion1,posicion2)
         print_tablero(tablero)
         if jaque_mate(tablero,jugador):
@@ -39,7 +42,9 @@ while True:
         if jugador == BLANCO:
             jugador = NEGRO
         else:
-            jugador = BLANCO  
+            jugador = BLANCO
+    else:
+        print (check_1[1])  # mensaje de error          
     
     guardar_partida(jugador,tablero)        
 
