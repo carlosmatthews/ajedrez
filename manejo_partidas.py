@@ -23,7 +23,7 @@ def serializar_tablero(tablero):
 def deserializar_tablero(tablero_serializado):
     tablero = {}
     for fila, col, pieza, color in tablero_serializado:
-        tablero[(fila,col = (pieza,color)
+        tablero[fila,col] = (pieza,color)
     return tablero    
 
 
