@@ -128,16 +128,18 @@ def chequear_movimiento_2(tablero,posicion1,posicion2,jugador):
         pieza_destino = tablero.get((posicion2))
         color_destino = pieza_destino[1] #aca indice para obtener color
         if color_ataque == color_destino:
-            print("no puede comer su propia pieza")
-            return False
-
-    if posicion2 in movimientos_posibles:   #movimientos_pieza(tablero, posicion1):
-        return True
+            mensaje = "no puede comer su propia pieza"
+            return False, mensaje
     else:
-        print("posicion invalida para esa pieza")
-        return False
+        return False, None
+    
+    if posicion2 in movimientos_posibles:   #movimientos_pieza(tablero, posicion1):
+        return True, None
+    else:
+        mensaje  = "posicion invalida para esa pieza"
+        return False, mensaje
 
-    return True
+    
 
 
 def print_tablero(tablero,posiciones_posibles = []):
