@@ -6,7 +6,7 @@ import json
 from flask import Flask
 from flask import request
 from manejo_partidas import serializar_tablero
-from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2, movimientos_posibles,jaque_mate,cambio_de_turno
+from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2,jaque_mate,cambio_de_turno
 import piezas_ajedrez
 
 app = Flask(__name__, static_url_path="/frontend")
@@ -14,8 +14,6 @@ app = Flask(__name__, static_url_path="/frontend")
 tablero = partida["tablero"]
 jugador = partida["turno"]
 ganador = None
-
-dic_error = {"error": "error en la ejecucion del movimiento"}
 
 
 @app.route("/inicio")
@@ -33,10 +31,11 @@ def inicio():
 def movimientos():
     fila = int(request.args.get("fila"))
     col = int(request.args.get("col"))
-    if not chequear_movimiento_1(tablero,(fila,col),jugador):
-        return json.dumps(dic_error)
+    chequeo = chequear_movimiento_1(tablero,(fila,col),jugador)
+    if not chequeo:
+        return json.dumps(chequeo[1])
     else:
-        return json.dumps(movimientos_posibles)
+        return json.dumps(chequeo[2])
 
         
 
