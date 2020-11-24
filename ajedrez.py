@@ -27,9 +27,6 @@ def cambio_de_turno(jugador):
         jugador = BLANCO 
 
 
-
-
-
 def crear_tablero():
     tablero = {}
     tablero[(0,0)] = (TORRE,    BLANCO)
@@ -53,6 +50,15 @@ def crear_tablero():
     for i in range(8):
         tablero[6,i] = (PEON, NEGRO)
     return tablero
+
+
+def partido_nuevo():
+    global tablero
+    global jugador
+    tablero_inicio = crear_tablero()
+    tablero = tablero_inicio.copy()
+    jugador = NEGRO
+    return tablero, jugador   
 
 def representacion_piezas(nombre_pieza):
    # https://qwerty.dev/chess-symbols-to-copy-and-paste/
@@ -126,9 +132,7 @@ def chequear_movimiento_2(tablero,posicion1,posicion2,jugador, movimientos_posib
         if color_ataque == color_destino:
             mensaje = "no puede comer su propia pieza"
             return False, mensaje
-    else:
-        return False, None
-    
+        
     if posicion2 in movimientos_posibles:   #movimientos_pieza(tablero, posicion1):
         return True, None
     else:
