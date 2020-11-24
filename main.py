@@ -1,17 +1,10 @@
 #!/usr/bin/env python3
 from ajedrez import *
 from piezas_ajedrez import mover, color_del_oponente
-from manejo_partidas import*
+from manejo_partidas import elegir_partida, guardar_partida
 
-tablero_inicio = crear_tablero()
-tablero = tablero_inicio.copy()
-jugador = BLANCO
 
-cargar_juego = elegir_partida()
-
-if cargar_juego == True:
-    partida = cargar_partida()
-    jugador, tablero = partida
+tablero, jugador =  elegir_partida()
 
 print_tablero(tablero)
 
