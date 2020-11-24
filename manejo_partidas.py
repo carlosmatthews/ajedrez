@@ -1,6 +1,6 @@
 import os
 import json
-
+from ajedrez import crear_tablero, BLANCO
 
 def elegir_partida():
     if os._exists("partida.json"):
@@ -8,11 +8,16 @@ def elegir_partida():
             inicio = int(input("ingrese 1 para continuar una partida o 0 para nueva partida: "))       
 
             if inicio == 0:
-                return False
+                return crear_tablero(), BLANCO
             if inicio == 1:
-                return True
+                return cargar_partida()# tablero, jugador
             else:
                 continue
+    else:
+        return crear_tablero(), BLANCO            
+
+
+
 
 def serializar_tablero(tablero):
     tablero_serializado = []
@@ -45,7 +50,7 @@ def cargar_partida():
         jugador = data["turno"]
         
     tablero = deserializar_tablero(tablero_guardardo)
-    return (jugador,tablero)
+    return (tablero, jugador)
 
 
 def leer_carpeta_de_guardados():
