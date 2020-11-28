@@ -5,13 +5,15 @@
 import json
 from flask import Flask
 from flask import request
-from manejo_partidas import serializar_tablero
-from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2,jaque_mate,cambio_de_turno
+from manejo_partidas import serializar_tablero,guardar_partida
+from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2,\
+jaque_mate,cambio_de_turno
+
 import piezas_ajedrez
 
 app = Flask(__name__, static_url_path="/frontend")
 
-tablero = partida["tablero"]
+tablero = crear_tablero()
 jugador = partida["turno"]
 ganador = None
 
@@ -53,8 +55,8 @@ def mover():
     col   = int(request.args.get ("col"))
     fila2 = int(request.args.get("fila2"))
     col2  = int(request.args.get("col2"))
-
     piezas_ajedrez.mover(tablero,(fila,col),(fila2,col2))
+    
     #esto va dentro de la fun mover original
     continua_juego = not jaque_mate(tablero,jugador)
     if not continua_juego:
@@ -65,7 +67,7 @@ def mover():
     cambio_de_turno(jugador)
     tablero_serializado = serializar_tablero(tablero)
     dic_partida = {"tablero" : tablero_serializado,"turno":jugador, "continua_juego":continua_juego, "ganador": ganador}
-    
+    guardar_partida(tablero,jugador, continua_juego,ganador)
     return json.dumps(dic_partida) 
 
     
@@ -73,7 +75,7 @@ def mover():
     
 @app.route('/')
 def main():
-    return "hola sol"
+    return "ajedrez server"
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
