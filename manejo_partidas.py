@@ -10,7 +10,7 @@ def elegir_partida():
             if inicio == 0:
                 return crear_tablero(), BLANCO
             if inicio == 1:
-                return cargar_partida()# tablero, jugador
+                return cargar_partida()# tablero, jugador,continua juego, ganador
             else:
                 continue
     else:
@@ -32,9 +32,10 @@ def deserializar_tablero(tablero_serializado):
     return tablero    
 
 
-def guardar_partida(jugador, tablero):
+def guardar_partida(jugador, tablero, continua_juego,ganador):
     tablero_guardar = serializar_tablero(tablero)   
-    data = {"turno":jugador,"tablero":tablero_guardar}
+    data = {"turno":jugador,"tablero":tablero_guardar, "continua_juego": continua_juego, \
+        "ganador": ganador }
     cadena = json.dumps(data)
     fichero = open("partida.json","w")
     fichero.write(cadena)
@@ -48,9 +49,10 @@ def cargar_partida():
         data = json.loads(line)
         tablero_guardardo = data["tablero"]
         jugador = data["turno"]
-        
+        continua_juego = data["continua_juego"]
+        ganador = data["ganador"]
     tablero = deserializar_tablero(tablero_guardardo)
-    return (tablero, jugador)
+    return (tablero, jugador, continua_juego, ganador)
 
 
 def leer_carpeta_de_guardados():
