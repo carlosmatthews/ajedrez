@@ -206,8 +206,6 @@ def movimientos_rey(tablero, posicion, posiciones_que_comen=False):
     return movimientos_posibles
 
 
-
-
 #esta funcion elije la funcion para cada pieza segun la posicion 
 def movimientos_pieza(tablero,posicion, posiciones_que_comen = False, filtrar_rey_en_jaque = True):
     pieza = tablero.get(posicion)
@@ -230,9 +228,9 @@ def movimientos_pieza(tablero,posicion, posiciones_que_comen = False, filtrar_re
     if filtrar_rey_en_jaque :
         def filtrado_rey_a_salvo(movimiento):
             tablero_con_movimientos = tablero.copy()
-            mover (tablero_con_movimientos, posicion,movimiento) 
+            mover_en_tablero(tablero_con_movimientos, posicion, movimiento)
             posicion_rey = posicion_del_rey(tablero_con_movimientos,color_jugador)
-            return not rey_esta_en_jaque(tablero_con_movimientos,posicion_rey)   
+            return not rey_esta_en_jaque(tablero_con_movimientos,posicion_rey)
     
         movimientos = list(filter(filtrado_rey_a_salvo,movimientos))
          
@@ -257,7 +255,7 @@ def posicion_del_rey(tablero, jugador):
             return posicion
         
 
-def mover(tablero, posicion1, posicion2):
+def mover_en_tablero(tablero, posicion1, posicion2):
     pieza = tablero.get(posicion1)
     tablero[posicion2] = pieza
     del tablero[posicion1]   

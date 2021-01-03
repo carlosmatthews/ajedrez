@@ -6,8 +6,7 @@ import json
 from flask import Flask
 from flask import request
 from manejo_partidas import serializar_tablero,guardar_partida, serializar_partida
-from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2,\
-jaque_mate
+from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2, jaque_mate
 
 import piezas_ajedrez
 
@@ -25,13 +24,11 @@ def reiniciar():
 #/movimientos?fila=0&col=1
 @app.route("/movimientos")     
 def movimientos():
-    fila = int(request.args.get("fila"))
-    col = int(request.args.get("col"))
-    puede_mover, mensaje, mov_posibles = chequear_movimiento_1(partida.tablero, (fila, col), partida.jugador)
-    if puede_mover:
-        return json.dumps({'mov_posibles': mov_posibles})
-    else:
+    posicion = int(request.args.get("fila")), int(request.args.get("col"))
+    puede_mover, mensaje, mov_posibles = chequear_movimiento_1(partida.tablero, posicion, partida.jugador)
+    if not puede_mover:
         return json.dumps({'error': mensaje})
+    return json.dumps({'mov_posibles': mov_posibles})
 
 
 @app.route('/partida')
@@ -42,24 +39,20 @@ def enviar_partida():
 #parametros  #?fila=0,col=0&fila2=5,col2=4')
 @app.route("/mover")        
 def mover():
-    fila  = int(request.args.get("fila"))
-    col   = int(request.args.get ("col"))
-    fila2 = int(request.args.get("fila2"))
-    col2  = int(request.args.get("col2"))
-    piezas_ajedrez.mover(partida.tablero,(fila,col),(fila2,col2))
-    
-    #esto va dentro de la fun mover original
-    partida.continua_juego = not jaque_mate(partida.tablero, partida.jugador)
-    if not partida.continua_juego:
-        partida.ganador = piezas_ajedrez.color_del_oponente(partida.jugador)
-    else:
-        partida.ganador = None
-    partida.cambio_turno() # esto va en mover
+    posicion1 = int(request.args.get("fila")), int(request.args.get ("col"))
+    posicion2 = int(request.args.get("fila2")), int(request.args.get("col2"))
+
+    puede_mover, mensaje, mov_posibles = chequear_movimiento_1(partida.tablero, posicion1, partida.jugador)
+    if not puede_mover:
+        return json.dumps({'error': mensaje})
+
+    puede_mover, mensaje = chequear_movimiento_2(partida.tablero, posicion1, posicion2, mov_posibles)
+    if not puede_mover:
+        return json.dumps({'error': mensaje})
+
+    partida.mover(posicion1, posicion2)
     partida_serializada = guardar_partida(partida)
     return partida_serializada
-
-    
-
     
 @app.route('/')
 def main():

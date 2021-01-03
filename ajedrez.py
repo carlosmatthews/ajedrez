@@ -1,4 +1,4 @@
-from piezas_ajedrez import movimientos_pieza, posicion_del_rey, rey_esta_en_jaque, color_del_oponente
+from piezas_ajedrez import movimientos_pieza, posicion_del_rey, rey_esta_en_jaque, color_del_oponente, mover_en_tablero
 
 # tipos de piezas:
 REY = "R"
@@ -57,10 +57,20 @@ class Partida:
         else:
             self.jugador = BLANCO
 
+    def mover(self,posicion1,posicion2):
+        mover_en_tablero(self.tablero, posicion1, posicion2)
+        if jaque_mate(self.tablero, self.jugador):  # TODO: tambien puede terminar si hay empate
+            self.continua_juego = False
+            self.ganador = partida.jugador
+        else:
+            partida.cambio_turno()
+
 
 partida = Partida()
 
 
+def representacion_jugador(jugador):
+    return "blancas" if jugador == BLANCO else "negras"
 
 
 def representacion_piezas(nombre_pieza):
@@ -125,7 +135,7 @@ def chequear_movimiento_1(tablero,posicion1,jugador):
             mensaje = "la pieza no tiene movimientos posibles"
             return False, mensaje, None
 
-def chequear_movimiento_2(tablero,posicion1,posicion2,jugador, movimientos_posibles):
+def chequear_movimiento_2(tablero,posicion1,posicion2, movimientos_posibles):
     pieza_ataque = tablero.get(posicion1)
     color_ataque = pieza_ataque[1]
     #revisa si hay pieza en casillero destino y si es del oponente
@@ -139,7 +149,7 @@ def chequear_movimiento_2(tablero,posicion1,posicion2,jugador, movimientos_posib
     if posicion2 in movimientos_posibles:   #movimientos_pieza(tablero, posicion1):
         return True, None
     else:
-        mensaje  = "posicion invalida para esa pieza"
+        mensaje = "posicion invalida para esa pieza"
         return False, mensaje
 
     
