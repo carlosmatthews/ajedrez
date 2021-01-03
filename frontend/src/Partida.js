@@ -5,6 +5,7 @@ class Partida extends Component {
   constructor(props) {
     super(props);
     this.click_casillero = this.click_casillero.bind(this);
+    this.reiniciar = this.reiniciar.bind(this);
     this.state = {
       tablero: null,
       mov_posibles: [],
@@ -96,6 +97,21 @@ class Partida extends Component {
     });
   }
 
+  reiniciar() {
+    fetch('/reiniciar')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          console.error(data.error);
+          alert(data.error);
+          return;
+        }
+        this.parse_partida_response(data);
+        this.clear_seleccion();
+      });
+  }
+
   render() {
     const state=this.state;
     const game_state_player = repr_jugador(state.ganador ?? state.jugador).toUpperCase();
@@ -113,9 +129,9 @@ class Partida extends Component {
             </td>
             <td id="infoTD">
               <h1>{game_state}</h1>
-              {state.pieza_seleccionada && <>
-                <h3>Pieza Seleccionada: <span className="pieza">{representacion_pieza(state.pieza_seleccionada)}</span></h3>
-              </>}  
+              <div>
+                <button onClick={this.reiniciar}>reiniciar</button>
+              </div>
             </td>
           </tr>
         </tbody>
