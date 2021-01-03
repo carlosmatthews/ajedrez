@@ -11,20 +11,9 @@ PEON = "P"
 # colores de piezas:
 BLANCO = "B"
 NEGRO = "N"
+
 #   marcas de casillero
 ASTERISCO = "*"
-
-tablero = {}
-jugador = BLANCO
-partida = {"turno": jugador, "tablero":tablero}
-
-   
-#para front
-def cambio_de_turno(jugador):
-    if jugador == BLANCO:
-            jugador = NEGRO
-    else:
-        jugador = BLANCO 
 
 
 def crear_tablero():
@@ -52,13 +41,27 @@ def crear_tablero():
     return tablero
 
 
-def partido_nuevo():
-    global tablero
-    global jugador
-    tablero_inicio = crear_tablero()
-    tablero = tablero_inicio.copy()
-    jugador = NEGRO
-    return tablero, jugador   
+class Partida:
+    def __init__(self):
+        self.juego_nuevo()
+
+    def juego_nuevo(self):
+        self.tablero = crear_tablero()
+        self.jugador = BLANCO
+        self.continua_juego = True
+        self.ganador = None
+
+    def cambio_turno(self):
+        if self.jugador == BLANCO:
+            self.jugador = NEGRO
+        else:
+            self.jugador = BLANCO
+
+
+partida = Partida()
+
+
+
 
 def representacion_piezas(nombre_pieza):
    # https://qwerty.dev/chess-symbols-to-copy-and-paste/

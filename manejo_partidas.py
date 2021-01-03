@@ -1,20 +1,23 @@
 import os
 import json
-from ajedrez import crear_tablero, BLANCO
+from ajedrez import crear_tablero, BLANCO, partida, Partida
+
 
 def elegir_partida():
+    global partida
+    leer_archivo = False
     if os._exists("partida.json"):
         while True:
-            inicio = int(input("ingrese 1 para continuar una partida o 0 para nueva partida: "))       
-
+            inicio = int(input("ingrese 1 para continuar una partida o 0 para nueva partida: "))
             if inicio == 0:
-                return crear_tablero(), BLANCO
+                break
             if inicio == 1:
-                return cargar_partida()# tablero, jugador,continua juego, ganador
-            else:
-                continue
+                leer_archivo = True
+                break
+    if leer_archivo:
+        partida = cargar_partida()
     else:
-        return crear_tablero(), BLANCO            
+        partida.juego_nuevo()
 
 
 
@@ -32,27 +35,40 @@ def deserializar_tablero(tablero_serializado):
     return tablero    
 
 
-def guardar_partida(jugador, tablero, continua_juego,ganador):
-    tablero_guardar = serializar_tablero(tablero)   
-    data = {"turno":jugador,"tablero":tablero_guardar, "continua_juego": continua_juego, \
-        "ganador": ganador }
-    cadena = json.dumps(data)
-    fichero = open("partida.json","w")
+def serializar_partida(partida):
+    tablero_serializado = serializar_tablero(partida.tablero)
+    data = {
+        "jugador": partida.jugador,
+        "tablero": tablero_serializado,
+        "continua_juego": partida.continua_juego,
+        "ganador": partida.ganador
+    }
+    return json.dumps(data)
+
+
+def deserializar_partida(partida_serializada):
+    data = json.loads(partida_serializada)
+    tablero = deserializar_tablero(data["tablero"])
+    p = Partida()
+    p.tablero = tablero
+    p.jugador = data["jugador"]
+    p.continua_juego = data["continua_juego"]
+    p.ganador = data["ganador"]
+    return p
+
+
+def guardar_partida(partida):
+    cadena = serializar_partida(partida)
+    fichero = open("partida.json", "w")
     fichero.write(cadena)
     fichero.close()
+    return cadena
 
 
 def cargar_partida():
     with open("partida.json") as fichero:
         line = fichero.readline()
-        fichero.close()
-        data = json.loads(line)
-        tablero_guardardo = data["tablero"]
-        jugador = data["turno"]
-        continua_juego = data["continua_juego"]
-        ganador = data["ganador"]
-    tablero = deserializar_tablero(tablero_guardardo)
-    return (tablero, jugador, continua_juego, ganador)
+    return deserializar_partida(line)
 
 
 def leer_carpeta_de_guardados():

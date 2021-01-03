@@ -5,26 +5,20 @@
 import json
 from flask import Flask
 from flask import request
-from manejo_partidas import serializar_tablero,guardar_partida
+from manejo_partidas import serializar_tablero,guardar_partida, serializar_partida
 from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2,\
-jaque_mate,cambio_de_turno
+jaque_mate
 
 import piezas_ajedrez
 
 app = Flask(__name__, static_url_path="/frontend")
 
-tablero = crear_tablero()
-jugador = partida["turno"]
-ganador = None
 
-
-@app.route("/inicio")
-#borrar
-def inicio():
-    global tablero
-    tablero = crear_tablero()
-    tablero_serializado = serializar_tablero(tablero)
-    return json.dumps(tablero_serializado)
+@app.route("/reiniciar")
+def reiniciar():
+    partida.juego_nuevo()
+    partida_serializada = guardar_partida(partida)
+    return partida_serializada
 
 
 
@@ -33,19 +27,16 @@ def inicio():
 def movimientos():
     fila = int(request.args.get("fila"))
     col = int(request.args.get("col"))
-    chequeo = chequear_movimiento_1(tablero,(fila,col),jugador)
-    if not chequeo:
-        return json.dumps(chequeo[1])
+    puede_mover, mensaje, mov_posibles = chequear_movimiento_1(partida.tablero, (fila, col), partida.jugador)
+    if puede_mover:
+        return json.dumps({'mov_posibles': mov_posibles})
     else:
-        return json.dumps(chequeo[2])
+        return json.dumps({'error': mensaje})
 
-        
 
-@app.route('/tablero')
-def enviar_tablero():
-    tablero_serializado = serializar_tablero(tablero)
-    tablero_json = json.dumps(tablero_serializado)
-    return tablero_json
+@app.route('/partida')
+def enviar_partida():
+    return serializar_partida(partida)
 
 
 #parametros  #?fila=0,col=0&fila2=5,col2=4')
@@ -55,20 +46,17 @@ def mover():
     col   = int(request.args.get ("col"))
     fila2 = int(request.args.get("fila2"))
     col2  = int(request.args.get("col2"))
-    piezas_ajedrez.mover(tablero,(fila,col),(fila2,col2))
+    piezas_ajedrez.mover(partida.tablero,(fila,col),(fila2,col2))
     
     #esto va dentro de la fun mover original
-    continua_juego = not jaque_mate(tablero,jugador)
-    if not continua_juego:
-        ganador = piezas_ajedrez.color_del_oponente(jugador)
+    partida.continua_juego = not jaque_mate(partida.tablero, partida.jugador)
+    if not partida.continua_juego:
+        partida.ganador = piezas_ajedrez.color_del_oponente(partida.jugador)
     else:
-        ganador = None    
-           
-    cambio_de_turno(jugador)
-    tablero_serializado = serializar_tablero(tablero)
-    dic_partida = {"tablero" : tablero_serializado,"turno":jugador, "continua_juego":continua_juego, "ganador": ganador}
-    guardar_partida(tablero,jugador, continua_juego,ganador)
-    return json.dumps(dic_partida) 
+        partida.ganador = None
+    partida.cambio_turno() # esto va en mover
+    partida_serializada = guardar_partida(partida)
+    return partida_serializada
 
     
 
