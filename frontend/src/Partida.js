@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Tablero, {representacion_pieza, es_mov_posible} from './Tablero';
+import Tablero, {representacion_pieza} from './Tablero';
 
 class Partida extends Component {
   constructor(props) {
@@ -47,6 +47,10 @@ class Partida extends Component {
     const state = this.state;
     const tablero = state.tablero;
     const pieza = tablero[[f,c]];
+    if (!state.continua_juego) {
+      this.clear_seleccion();
+      return;
+    }
     if (pieza && pieza[1] === state.jugador) {
       this.setState({
         pieza_seleccionada: pieza,
@@ -79,28 +83,24 @@ class Partida extends Component {
             return;
           }
           this.parse_partida_response(data);
-          this.setState({
-            pieza_seleccionada: null,
-            pos_seleccionada: null,
-            mov_posibles: [],
-          });
+          this.clear_seleccion();
         });
     }
-    //   //if (es_mov_posible(state.mov_posibles, [f,c])) {
-    //   if (true) {
-    //     const pieza_original = tablero[state.pos_seleccionada];
-    //     delete tablero[state.pos_seleccionada];
-    //     tablero[[f,c]] = pieza_original;
-    //     nuevo_state.tablero = tablero;
-    //     nuevo_state.jugador = otro_color(state.jugador);
-    //   }
-    // }
-//    this.setState(nuevo_state);
+  }
 
+  clear_seleccion() {
+    this.setState({
+      pieza_seleccionada: null,
+      pos_seleccionada: null,
+      mov_posibles: [],
+    });
   }
 
   render() {
     const state=this.state;
+    const game_state_player = repr_jugador(state.ganador ?? state.jugador).toUpperCase();
+    const game_state = (state.ganador ? 'Ganaron' : 'Juegan') + ' las ' + game_state_player;
+    console.log(game_state);
     return <>
       <table>
         <tbody>
@@ -112,7 +112,7 @@ class Partida extends Component {
                 click={this.click_casillero}/>
             </td>
             <td id="infoTD">
-              <h1>Juegan {state.jugador === 'B' ? 'BLANCAS' : 'NEGRAS'}</h1>
+              <h1>{game_state}</h1>
               {state.pieza_seleccionada && <>
                 <h3>Pieza Seleccionada: <span className="pieza">{representacion_pieza(state.pieza_seleccionada)}</span></h3>
               </>}  
@@ -124,6 +124,6 @@ class Partida extends Component {
   }
 }
 
-const otro_color = (color) => color === 'B' ? 'N' : 'B';
+const repr_jugador = (jugador) => jugador === 'B' ? 'blancas' : 'negras';
 
 export default Partida;
