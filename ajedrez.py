@@ -121,15 +121,15 @@ def chequear_movimiento_1(tablero,posicion1,jugador):
         return False, mensaje, None
 
     pieza_ataque, color_ataque = tablero.get(posicion1)
-    #revisa si eljijio pieza de acuerdo al color del turno
+    # Revisa si eljijio pieza de acuerdo al color del turno
     if jugador != color_ataque:
         mensaje = "elija un pieza del color",jugador
         return False, mensaje, None
     else:
-        #revisa los movimietos pósibles segun la posicion elejida
+        # Revisa los movimietos pósibles segun la posicion elejida
         movimientos_posibles = movimientos_pieza(tablero, posicion1)
         if len(movimientos_posibles) > 0 :
-            print_tablero(tablero,movimientos_posibles)
+            print_tablero(tablero,movimientos_posibles)  # TODO: sacar print de aca y ponerlo en el main, esto tb se usa en el server
             return True, None, movimientos_posibles
         else:
             mensaje = "la pieza no tiene movimientos posibles"
