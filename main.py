@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-from ajedrez import *
-from piezas_ajedrez import mover_en_tablero, color_del_oponente
+
+from ajedrez import partida, print_tablero, convertir_de_frontend, chequear_movimiento_1, chequear_movimiento_2, representacion_jugador
 from manejo_partidas import elegir_partida, guardar_partida
 
-
+# FIXME: el tema de cargar una partida con partida = cargar_partida() trae problemas porque no se actualiza aca y siempre queda el tablero nuevo
 elegir_partida()
-
 print_tablero(partida.tablero)
 
 while True:
@@ -26,18 +25,10 @@ while True:
     puede_mover, mensaje = chequear_movimiento_2(partida.tablero, posicion1, posicion2, movimientos_posibles)
     if puede_mover:
         partida.mover(posicion1,posicion2)
+        guardar_partida(partida)
         print_tablero(partida.tablero)
         if not partida.continua_juego:
             print("JAQUE MATE, ganaron las ", representacion_jugador(partida.ganador))
             break
     else:
-        print(mensaje)  # mensaje de error          
-    
-    guardar_partida(partida)
-
-
-
-
-
-
-
+        print(mensaje)  # mensaje de error
