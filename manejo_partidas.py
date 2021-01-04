@@ -5,21 +5,23 @@ from ajedrez import crear_tablero, BLANCO, partida, Partida
 
 def elegir_partida():
     global partida
-    leer_archivo = False
-    if os._exists("partida.json"):
-        while True:
-            inicio = int(input("ingrese 1 para continuar una partida o 0 para nueva partida: "))
-            if inicio == 0:
-                break
-            if inicio == 1:
-                leer_archivo = True
-                break
-    if leer_archivo:
-        partida = cargar_partida()
-    else:
+
+    if not hay_archivo_partida():
         partida.juego_nuevo()
+        return
+
+    while True:
+        inicio = int(input("ingrese 1 para continuar una partida o 0 para nueva partida: "))
+        if inicio == 0:
+            partida.juego_nuevo()
+            break
+        if inicio == 1:
+            partida = cargar_partida()
+            break
 
 
+def hay_archivo_partida():
+    return os.path.exists("partida.json")
 
 
 def serializar_tablero(tablero):
