@@ -16,7 +16,7 @@ def elegir_partida():
             partida.juego_nuevo()
             break
         if inicio == 1:
-            partida = cargar_partida()
+            cargar_partida() #cambio llamada a cargar partida..objeto
             break
 
 
@@ -66,11 +66,16 @@ def guardar_partida(partida):
     fichero.close()
     return cadena
 
-
+#borrar despues de que funciona metodo cargar partido en Objeto partida
 def cargar_partida():
     with open("partida.json") as fichero:
         line = fichero.readline()
-    return deserializar_partida(line)
+    #recive objeto p y modifica objeto partida sin return....    
+    p = deserializar_partida(line)
+    partida.tablero = p.tablero
+    partida.jugador = p.jugador
+    partida.continua_juego = p.continua_juego
+    partida.ganador = p.ganador
 
 
 def leer_carpeta_de_guardados():
