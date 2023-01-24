@@ -4,4 +4,3 @@ __pycache__
 *.code-workspace
 errores
 partida.json
-Procfile
