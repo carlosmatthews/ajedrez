@@ -3,8 +3,7 @@
 # Y despues lo accedes en el navegador en esta direccion: http://localhost:8000/
 
 import json
-from flask import Flask
-from flask import request
+from flask import Flask, request, redirect
 from manejo_partidas import serializar_tablero,guardar_partida, serializar_partida
 from ajedrez import partida, crear_tablero, chequear_movimiento_1,chequear_movimiento_2, jaque_mate
 
@@ -53,10 +52,12 @@ def mover():
     partida.mover(posicion1, posicion2)
     partida_serializada = guardar_partida(partida)
     return partida_serializada
-    
+
+
 @app.route('/')
 def main():
-    return "ajedrez server"
+    return redirect('/frontend/index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
